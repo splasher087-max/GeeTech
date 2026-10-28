@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Find testet brugt PC-hardware, gaming-PC'er, grafikkort og komponenter hos NEXORA.">
+  <meta name="theme-color" content="#0b0e13">
+  <title>Webshop | NEXORA</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body data-page="shop">
+  <a class="skip-link" href="#main-content">Spring til indhold</a>
+
+  <header class="navbar">
+    <a href="index.html" class="logo" aria-label="NEXORA forside">NEXORA<span>.</span></a>
+    <nav class="nav-links" aria-label="Hovednavigation">
+      <a href="index.html">Forside</a>
+      <a href="shop.html" class="active" aria-current="page">Webshop</a>
+      <a href="index.html#categories">Kategorier</a>
+      <a href="sell.html">Sælg dit gear</a>
+          <a href="account.html">Min konto</a>
+    </nav>
+    <button class="cart-button" id="cart-button" type="button" aria-label="Åbn kurv">
+      <span aria-hidden="true">🛒</span> Kurv <span id="cart-count">0</span>
+    </button>
+  </header>
+
+  <main id="main-content">
+    <section class="shop-hero">
+      <div class="container">
+        <p class="eyebrow">BRUGT HARDWARE · ORDENTLIGT TESTET</p>
+        <h1>Find dit næste upgrade</h1>
+        <p class="shop-intro">Gaming-PC'er, grafikkort og hardware til fair priser. Se stand, specifikationer og lagerstatus, før du køber.</p>
+      </div>
+    </section>
+
+    <section class="shop-layout container" aria-label="Webshop">
+      <aside class="shop-sidebar" aria-label="Produktfiltre">
+        <div class="filter-header"><h2>Filtre</h2><button id="clear-filters" class="reset-button" type="button">Nulstil</button></div>
+        <div class="filter-group search-group">
+          <label for="product-search">Søg</label>
+          <input type="search" id="product-search" name="product-search" placeholder="Fx RTX 3070" autocomplete="off">
+        </div>
+        <fieldset class="filter-group">
+          <legend>Kategori</legend>
+          <label class="filter-option"><input type="radio" name="category" value="all" checked><span>Alle produkter</span></label>
+          <label class="filter-option"><input type="radio" name="category" value="pc"><span>Gaming-PC'er</span></label>
+          <label class="filter-option"><input type="radio" name="category" value="gpu"><span>Grafikkort</span></label>
+          <label class="filter-option"><input type="radio" name="category" value="component"><span>Komponenter</span></label>
+          <label class="filter-option"><input type="radio" name="category" value="gear"><span>Gaming gear</span></label>
+        </fieldset>
+        <fieldset class="filter-group">
+          <legend>Stand</legend>
+          <label class="filter-option"><input type="checkbox" name="condition" value="som-ny"><span>Som ny</span></label>
+          <label class="filter-option"><input type="checkbox" name="condition" value="meget-god"><span>Meget god</span></label>
+          <label class="filter-option"><input type="checkbox" name="condition" value="god"><span>God</span></label>
+        </fieldset>
+      </aside>
+
+      <div class="shop-content">
+        <div class="shop-toolbar">
+          <p><strong id="product-count">0</strong> produkter</p>
+          <label class="sort-control" for="sort-products"><span>Sorter efter</span>
+            <select id="sort-products" name="sort-products">
+              <option value="recommended">Anbefalet</option>
+              <option value="price-low">Pris: lav til høj</option>
+              <option value="price-high">Pris: høj til lav</option>
+              <option value="name">Navn: A–Å</option>
+            </select>
+          </label>
+        </div>
+        <div class="shop-product-grid" id="shop-products" aria-live="polite"></div>
+        <div class="empty-state" id="empty-state" hidden>
+          <div class="empty-icon" aria-hidden="true">⌕</div><h2>Ingen produkter fundet</h2><p>Prøv at ændre din søgning eller dine filtre.</p>
+          <button type="button" class="button secondary" id="empty-reset-filters">Nulstil filtre</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer legal-footer">
+  <div class="container legal-footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" aria-label="NEXORA forside">NEXORA<span>.</span></a>
+      <p>Brugt hardware. Nye muligheder.</p>
+      <p class="footer-demo-note">Demo · virksomhedsoplysninger udfyldes før lancering.</p>
+    </div>
+    <div class="footer-column">
+      <h2>Kundeservice</h2>
+      <a href="kontakt.html">Kontakt</a>
+      <a href="retur.html">Fortrydelse & retur</a>
+      <a href="handelsbetingelser.html">Handelsbetingelser</a>
+    </div>
+    <div class="footer-column">
+      <h2>Om NEXORA</h2>
+      <a href="privatliv.html">Privatlivspolitik</a>
+      <a href="sell.html">Sælg dit gear</a>
+      <a href="shop.html">Webshop</a>
+    </div>
+    <div class="footer-company">
+      <h2>Virksomhed</h2>
+      <p><strong>Juridisk navn:</strong> Udfyldes</p>
+      <p><strong>CVR:</strong> Udfyldes</p>
+      <p><strong>Adresse:</strong> Udfyldes</p>
+      <p><strong>E-mail:</strong> Udfyldes</p>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 NEXORA · DEMO-WEBSHOP</span>
+    <span>Ikke åben for rigtige bestillinger endnu</span>
+  </div>
+</footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sælg dit brugte PC-gear til NEXORA gennem et enkelt guidet vurderingsflow.">
+  <meta name="theme-color" content="#0b0e13">
+  <title>Sælg dit gear | NEXORA</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body data-page="sell">
+  <a class="skip-link" href="#main-content">Spring til indhold</a>
+  <header class="navbar">
+    <a href="index.html" class="logo" aria-label="NEXORA forside">NEXORA<span>.</span></a>
+    <nav class="nav-links" aria-label="Hovednavigation">
+      <a href="index.html">Forside</a><a href="shop.html">Webshop</a><a href="index.html#categories">Kategorier</a><a href="sell.html" class="active" aria-current="page">Sælg dit gear</a>
+          <a href="account.html">Min konto</a>
+    </nav>
+    <button class="cart-button" id="cart-button" type="button" aria-label="Åbn kurv"><span aria-hidden="true">🛒</span> Kurv <span id="cart-count">0</span></button>
+  </header>
+
+  <main id="main-content" class="sell-page container">
+    <section class="sell-page-intro">
+      <p class="eyebrow">SÆLG DIT GEAR</p>
+      <h1>Fortæl os, hvad du vil sælge.</h1>
+      <p>Et enkelt trin ad gangen. Du kan gennemgå hele demo-flowet nu; intet bliver sendt eller gemt på en server endnu.</p>
+    </section>
+
+    <div class="sell-flow-layout">
+      <aside class="sell-progress-card" aria-label="Fremskridt">
+        <p class="sell-progress-label">Din vurdering</p>
+        <ol class="sell-progress" id="sell-progress">
+          <li class="active" data-step="1"><span>1</span><div><strong>Produkt</strong><small>Hvad sælger du?</small></div></li>
+          <li data-step="2"><span>2</span><div><strong>Detaljer</strong><small>Model og stand</small></div></li>
+          <li data-step="3"><span>3</span><div><strong>Tilbehør</strong><small>Hvad følger med?</small></div></li>
+          <li data-step="4"><span>4</span><div><strong>Billeder</strong><small>Valgfrit i demoen</small></div></li>
+          <li data-step="5"><span>5</span><div><strong>Gennemse</strong><small>Tjek oplysningerne</small></div></li>
+        </ol>
+        <div class="sell-privacy-note"><strong>Demo uden upload</strong><p>Dine oplysninger forlader ikke browseren i denne prototype.</p></div>
+      </aside>
+
+      <section class="sell-form-card" aria-labelledby="sell-step-title">
+        <div class="sell-mobile-progress"><span id="sell-step-counter">Trin 1 af 5</span><div class="progress-track"><span id="sell-progress-bar"></span></div></div>
+        <form id="sell-form" novalidate>
+          <section class="sell-step active" data-step="1">
+            <p class="eyebrow">TRIN 1</p>
+            <h2 id="sell-step-title">Hvad vil du sælge?</h2>
+            <p class="step-copy">Start med hovedkategorien. Derefter vælger du den konkrete type produkt.</p>
+            <div class="choice-grid" id="sell-category-grid" role="radiogroup" aria-label="Hovedkategori"></div>
+            <div id="sell-subtype-wrap" class="subtype-wrap" hidden>
+              <p class="subtype-title" id="sell-subtype-title">Hvilken type er det?</p>
+              <div class="subtype-grid" id="sell-subtype-grid" role="radiogroup" aria-labelledby="sell-subtype-title"></div>
+            </div>
+            <p class="field-error" data-error="sell-category" hidden>Vælg en kategori for at fortsætte.</p>
+            <p class="field-error" data-error="sell-subtype" hidden>Vælg den konkrete produkttype for at fortsætte.</p>
+          </section>
+
+          <section class="sell-step" data-step="2" hidden>
+            <p class="eyebrow">TRIN 2</p>
+            <h2 id="sell-details-title">Fortæl lidt om produktet</h2>
+            <p class="step-copy" id="sell-details-copy">Jo mere du fortæller os om varen, desto mere præcist kan vi vurdere den.</p>
+            <div class="dynamic-fields" id="sell-detail-fields"></div>
+            <fieldset class="condition-picker"><legend>Hvordan vil du beskrive standen?</legend>
+              <label><input type="radio" name="sell-condition" value="Som ny" required><span><strong>Som ny</strong><small>Næsten ingen synlige brugsspor</small></span></label>
+              <label><input type="radio" name="sell-condition" value="Meget god"><span><strong>Meget god</strong><small>Lette kosmetiske brugsspor</small></span></label>
+              <label><input type="radio" name="sell-condition" value="God"><span><strong>God</strong><small>Synlige normale brugsspor</small></span></label>
+              <label><input type="radio" name="sell-condition" value="Defekt / fejl"><span><strong>Defekt / fejl</strong><small>Har fejl eller virker ikke korrekt</small></span></label>
+            </fieldset>
+            <div id="sell-issue-fields"></div>
+            <label class="field"><span>Bemærkninger <em>valgfrit</em></span><textarea id="sell-notes" name="sell-notes" maxlength="600" rows="5" placeholder="Fortæl om ridser, fejl, reparationer eller andet vi bør vide"></textarea><small class="char-count"><span id="notes-count">0</span>/600</small></label>
+            <p class="field-error" data-error="details" hidden>Udfyld de markerede oplysninger og vælg stand for at fortsætte.</p>
+          </section>
+
+          <section class="sell-step" data-step="3" hidden>
+            <p class="eyebrow">TRIN 3</p>
+            <h2 id="sell-accessory-title">Hvad følger med?</h2>
+            <p class="step-copy" id="sell-accessory-copy">Vælg det tilbehør, der følger med varen.</p>
+            <div class="check-grid" id="sell-accessory-grid"></div>
+            <label class="field"><span>Andet tilbehør <em>valgfrit</em></span><input id="sell-extra" name="sell-extra" type="text" maxlength="150" autocomplete="off" placeholder="Andet der følger med varen"></label>
+          </section>
+
+          <section class="sell-step" data-step="4" hidden>
+            <p class="eyebrow">TRIN 4</p>
+            <h2>Tilføj billeder</h2>
+            <p class="step-copy" id="sell-photo-copy">Gode billeder gør vurderingen mere præcis.</p>
+            <div class="photo-guide" id="sell-photo-guide"></div>
+            <label class="upload-zone" for="sell-images"><span class="upload-icon" aria-hidden="true">＋</span><strong>Vælg billeder</strong><span>JPG, PNG eller WebP · maks. 5 billeder · maks. 8 MB pr. fil</span></label>
+            <input class="visually-hidden" id="sell-images" name="sell-images" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+            <div class="image-preview-list" id="image-preview-list" aria-live="polite"></div>
+            <p class="field-error" data-error="images" hidden></p>
+          </section>
+
+          <section class="sell-step" data-step="5" hidden>
+            <p class="eyebrow">TRIN 5</p><h2>Ser det rigtigt ud?</h2><p class="step-copy">Gennemgå oplysningerne. I næste udviklingsfase kobler vi dette flow til backend og kontaktoplysninger.</p>
+            <dl class="sell-summary" id="sell-summary"></dl>
+            <div class="demo-submit-note"><strong>Prototype</strong><p>Knappen nedenfor sender ikke data. Den demonstrerer kun den færdige brugeroplevelse.</p></div>
+          </section>
+
+          <div class="sell-form-actions"><button class="button secondary" id="sell-back" type="button" hidden>← Tilbage</button><button class="button primary" id="sell-next" type="button">Fortsæt →</button></div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer legal-footer">
+  <div class="container legal-footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo" aria-label="NEXORA forside">NEXORA<span>.</span></a>
+      <p>Brugt hardware. Nye muligheder.</p>
+      <p class="footer-demo-note">Demo · virksomhedsoplysninger udfyldes før lancering.</p>
+    </div>
+    <div class="footer-column">
+      <h2>Kundeservice</h2>
+      <a href="kontakt.html">Kontakt</a>
+      <a href="retur.html">Fortrydelse & retur</a>
+      <a href="handelsbetingelser.html">Handelsbetingelser</a>
+    </div>
+    <div class="footer-column">
+      <h2>Om NEXORA</h2>
+      <a href="privatliv.html">Privatlivspolitik</a>
+      <a href="sell.html">Sælg dit gear</a>
+      <a href="shop.html">Webshop</a>
+    </div>
+    <div class="footer-company">
+      <h2>Virksomhed</h2>
+      <p><strong>Juridisk navn:</strong> Udfyldes</p>
+      <p><strong>CVR:</strong> Udfyldes</p>
+      <p><strong>Adresse:</strong> Udfyldes</p>
+      <p><strong>E-mail:</strong> Udfyldes</p>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 NEXORA · DEMO-WEBSHOP</span>
+    <span>Ikke åben for rigtige bestillinger endnu</span>
+  </div>
+</footer>
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
