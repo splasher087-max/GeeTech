@@ -1,0 +1,20 @@
+# Local tooling / caches
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
+dist/
+build/
+.cache/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Secrets and local overrides
+.env
+.env.*
+!.env.example
+*.pem
+*.key
