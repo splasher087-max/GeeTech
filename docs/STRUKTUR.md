@@ -1,20 +1,43 @@
-# GeeTech – Struktur und nächste Schritte
+# GeeTech – Projektstruktur (28.10.2026)
 
 ## Aktueller Aufbau
+```
+GeeTech/
+├── index.html             # GeeTech-Startseite
+├── service.html           # PC-Service
+├── shop.html              # Shop-Demo (intern noch NEXORA)
+├── sell.html
+├── account.html
+├── cart.html
+├── checkout.html
+├── kontakt.html
+├── retur.html
+├── handelsbetingelser.html
+├── privatliv.html
+├── css/
+│   ├── landing.css       # Startseite und Service-Layout
+│   └── site.css          # Shop und weitere Seiten
+├── js/
+│   └── site.js           # Bestehende interaktive Shop-Demo
+├── docs/
+│   └── STRUKTUR.md
+├── start-local.bat
+├── .gitignore
+└── README.md
+```
 
-Die Hauptseiten und gemeinsam verwendeten CSS-/JS-Dateien bleiben im Stammordner. Das schützt bestehende Links zwischen den Seiten. Bilder und andere Medien gehören in `assets/`. Hilfsdateien und Projektnotizen liegen separat.
+## Durchgeführte Arbeiten
+- Kaputte Startseite ersetzt: fehlende Hintergrundgrafik ist nicht mehr notwendig.
+- Responsive GeeTech-Startseite mit animiertem Chip, Service-/Shop-Navigation und Kontaktbereich.
+- Stylesheets nach `css/` und Skript nach `js/` verschoben.
+- HTML-Referenzen angepasst; veraltete Root-Stylesheets und Root-Skript gelöscht.
+- 11 HTML-Seiten und 14 aktuelle HTML/CSS/JS-Ziele auf Repository-Verfügbarkeit geprüft.
 
-## Geprüft
+## Offen vor einem echten öffentlichen Shop-Start
+- Browser- und End-to-End-Tests (Desktop/Mobil).
+- Bestehendes NEXORA-Branding im Shop mit GeeTech abstimmen.
+- Echte Account-Verwaltung, serverseitige Bestandsdaten, Bestell- und Zahlungsabwicklung.
+- Datenschutzerklärung, Widerruf, AGB und gesetzliche Unternehmensangaben fachlich prüfen.
+- Deployment über GitHub Pages aktivieren und veröffentlichte Vorschau testen.
 
-- Startseite verweist auf `service.html`, `shop.html` und `landing.css`.
-- Shop-Seiten verwenden `style.css` und `script.js`.
-- `cart.html` und `checkout.html` sind im Repository vorhanden.
-- Eine umfassende Browser-, Bild- und Funktionsprüfung ist noch offen.
-
-## Nächste Schritte
-
-1. Lokale Vorschau starten und alle Navigationen testen.
-2. Grafiken und Ressourcen auf fehlende Dateinamen/Pfade prüfen.
-3. JavaScript nach einzelnen Funktionen/Modulen aufteilen, falls sinnvoll.
-4. Shop-Funktionen von Demo-Zustand zu sicherer Backend-Lösung planen.
-5. Nach erfolgreichem Browser-Test gegebenenfalls Dateien in `css/` und `js/` verschieben und **sämtliche** Verknüpfungen aktualisieren.
+Die Seite ist weiterhin eine **Demo** und darf nicht als betriebsbereiter E-Commerce-Shop beworben werden.
