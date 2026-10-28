@@ -1,0 +1,36 @@
+name: Verify static site
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check internal HTML and asset references
+        run: |
+          python3 - <<'PY'
+          import re, pathlib, sys
+          root = pathlib.Path(".")
+          errors = []
+          pages = list(root.glob("*.html"))
+          for page in pages:
+              text = page.read_text(encoding="utf-8")
+              for value in re.findall(r'(?:href|src)\s*=\s*["\']([^"\']+)["\']', text):
+                  clean = value.split("#")[0].split("?")[0]
+                  if not clean or clean.startswith(("http:", "https:", "mailto:", "tel:", "//", "data:", "javascript:")):
+                      continue
+                  target = root / clean.lstrip("/")
+                  if not target.exists():
+                      errors.append(f"{page}: missing {clean}")
+          for stylesheet in root.glob("css/*.css"):
+              text = stylesheet.read_text(encoding="utf-8")
+              for value in re.findall(r'url\(\s*["\']?([^\)"\']+)', text):
+                  if value.startswith(("data:", "http:", "https:", "//", "#")): continue
+                  target = stylesheet.parent / value.split("?")[0]
+                  if not target.exists(): errors.append(f"{stylesheet}: missing {value}")
+          for error in errors: print("ERROR", error)
+          print(f"Checked {len(pages)} HTML files; {len(errors)} missing local references")
+          sys.exit(bool(errors))
+          PY
