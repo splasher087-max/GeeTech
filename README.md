@@ -1,29 +1,36 @@
 # GeeTech
 
-GeeTech ist eine responsive Website für PC-Service und eine geplante Gaming-Hardware-Webshop-Demo.
+Responsive Webprojekt mit zwei eigenständigen Designwelten:
 
-## Lokale Vorschau unter Windows
-1. Repository über **Code → Download ZIP** herunterladen und entpacken.
-2. `start-local.bat` im Hauptordner starten (Python 3 erforderlich).
-3. Im Browser **http://localhost:8000/** öffnen.
-4. Server mit Strg+C stoppen.
+- **GeeTech Service** (`service.html`): Blau, Violett, Hellblau; moderne Hero-Animation, Serviceangebote, Ablauf, FAQ.
+- **GeeTech Shop** (`shop.html`): Schwarz und Neongrün; Produktfilter, Warenkorb und Checkout als Demo.
+- **GeeTech Start** (`index.html`): zentraler Einstieg zu Service und Shop.
 
-Alternativ: `python -m http.server 8000 --bind 127.0.0.1` im Projektordner ausführen.
+## Lokal starten
 
-## Online-Vorschau
-In den GitHub-Einstellungen **Settings → Pages → Build and deployment → Deploy from a branch → main → /(root)** wählen. Nach der Veröffentlichung ist die Vorschau voraussichtlich unter **https://splasher087-max.github.io/GeeTech/** verfügbar. Die Veröffentlichung wurde noch nicht live bestätigt.
+1. GitHub → Code → Download ZIP.
+2. ZIP entpacken.
+3. `start-local.bat` doppelklicken (Python 3 erforderlich).
+4. **http://localhost:8000/** öffnen.
 
-## Struktur
-- `index.html`: Neue GeeTech-Startseite
-- `service.html`: PC-Service
-- `shop.html`, `sell.html`, `cart.html`, `checkout.html`, `account.html`: Shop-Prototyp (mit bestehendem NEXORA-Branding)
-- `kontakt.html` und juristische Informationsseiten
-- `css/landing.css`: Startseite und Service
-- `css/site.css`: Shop-Seiten
-- `js/site.js`: Interaktionen der Shop-Demo
-- `docs/STRUKTUR.md`: Technische Übersicht
+## GitHub Pages
 
-## Status und Sicherheit
-Die Website ist eine **Demo, keine betriebsfertige Webshop-Plattform**. Es werden keine echten Zahlungen oder Bestellungen abgewickelt. Für einen produktiven Start fehlen insbesondere sicheres Backend, Zahlungsanbieter, rechtliche Angaben und vollständige Browser-/Funktionstests.
+Settings → Pages → Deploy from a branch → `main` → `/(root)` → Save.
 
-Keine Zugangsschlüssel, privaten Daten oder `.env`-Dateien ins öffentliche Repository hochladen.
+Voraussichtliche URL: https://splasher087-max.github.io/GeeTech/
+
+## Dateistruktur
+
+- `index.html`, `service.html`, `shop.html` und weitere Seiten im Stammverzeichnis.
+- `css/landing.css` für den Einstieg.
+- `css/service.css` für Service (Blau/Violett/Hellblau).
+- `css/site.css` für Shop und Hilfsseiten (Schwarz/Grün).
+- `js/service.js` für Scroll-Animationen.
+- `js/site.js` für Frontend-Shop-Demofunktionen.
+- `docs/` für Notizen und Entwicklungsplanung.
+
+## Wichtiger Betriebsstatus
+
+**Nicht als fertigen E-Commerce-Shop veröffentlichen.** Das Repository enthält statische Seiten und clientseitige Demo-Funktionen. Eine echte Bestellabwicklung, sichere Nutzerkonten, Datenbank/Lagerverwaltung, Zahlungssystem und verbindliche Kontaktnachrichten erfordern passende Backend- und Dienstanbindungen sowie Sicherheitstests. Kontaktdaten und rechtliche Seiten enthalten teils Platzhalter. Keine echten Kundendaten in Demo-Formulare eintragen.
+
+Die Optik und Pfadstruktur wurden überarbeitet. Ein vollständiger End-to-End-Browsertest und Produktionsfreigabe wurden nicht durchgeführt.
