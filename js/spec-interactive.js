@@ -7,7 +7,7 @@
  const $=id=>document.getElementById(id);
  const by=(arr,id)=>arr.find(x=>x.id===id)||null;
  const compatible=(cpu,board)=>window.GEETECH_SPEC_META?.exactCompatibility?.(cpu,board)?.kind!=="blocked";
- const ids=["cpu","board","ramtype","socket","case","gpu","psu"];
+ const ids=["cpu","board","ram","ramtype","socket","case","gpu","psu","storage","capacity"];
  const notice=document.createElement("p");notice.id="checker-live-feedback";notice.className="checker-filter-feedback";notice.setAttribute("role","status");
  const fields=$("pc-checker-form").querySelector(".checker-fields");fields.after(notice);
  const specs=$("checker-live-parts");
@@ -76,6 +76,27 @@
    by(db.cpus,$("cpu").value),by(db.boards,$("board").value),
    by(db.gpus,$("gpu").value),by(db.psus,$("psu").value),by(db.cases,$("case").value)
   ].filter(Boolean);
+  if($("ram").value||$("ramtype").value){
+   const qty=$("ram").value||"ukendt";
+   const type=$("ramtype").value||"ukendt";
+   selected.push({
+    name:"RAM: "+qty+" GB / "+type,summary:"Systemhukommelse lagrer aktive programdata. Mængde, antal moduler, hastighed og bundkortets RAM-understøttelse påvirker ydelsen.",
+    specs:[["Mængde",qty+" GB"],["Generation",type],["Hastighed og moduler","Ukendt – vælg konkret RAM-kit for kontrol"]],
+    use:"DDR4 og DDR5 bruger forskellige slots. Mere RAM hjælper mest, når den eksisterende mængde er tæt på fuld udnyttelse.",
+    evidenceLabel:"Brugerens RAM-mængde/-kategori – ikke en registreret produktmodel"
+   });
+  }
+  if($("storage").value||$("capacity").value){
+   const type={hdd:"HDD",sata:"SATA SSD",nvme:"NVMe SSD"}[$("storage").value]||"Ukendt disk";
+   const size=$("capacity").value?$("capacity").value+" GB":"ukendt";
+   selected.push({
+    name:"Systemdisk: "+type,
+    summary:"Systemdisken opbevarer Windows, programmer, spil og filer. SSD'er giver typisk hurtigere adgangstider end mekaniske harddiske.",
+    specs:[["Lagertype",type],["Angivet kapacitet",size],["Præcis model / interface / ledig plads","Ikke oplyst"]],
+    use:"NVMe kræver en kompatibel tilslutning. Et generisk lagervalg dokumenterer ikke diskens faktiske hastighed eller sundhed.",
+    evidenceLabel:"Brugeroplyst diskklasse – ingen producentmodel"
+   });
+  }
   if(!selected.length){const p=document.createElement("p");p.textContent="Vælg en komponent ovenfor for at se dens specifikationer.";specs.append(p);}
   else selected.forEach(x=>specs.append(card(x)));
  }
