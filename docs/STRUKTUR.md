@@ -1,43 +1,37 @@
-# GeeTech – Projektstruktur (28.10.2026)
+# GeeTech – aktuelle Projektstruktur (29.10.2026)
 
-## Aktueller Aufbau
-```
-GeeTech/
-├── index.html             # GeeTech-Startseite
-├── service.html           # PC-Service
-├── shop.html              # Shop-Demo (intern noch NEXORA)
-├── sell.html
-├── account.html
-├── cart.html
-├── checkout.html
-├── kontakt.html
-├── retur.html
-├── handelsbetingelser.html
-├── privatliv.html
-├── css/
-│   ├── landing.css       # Startseite und Service-Layout
-│   └── site.css          # Shop und weitere Seiten
-├── js/
-│   └── site.js           # Bestehende interaktive Shop-Demo
-├── docs/
-│   └── STRUKTUR.md
-├── start-local.bat
-├── .gitignore
-└── README.md
-```
+## Aktuelle Website
+- `index.html`: Startseite mit Service-/Shop-Auswahl und den beiden Vorschaubildern
+- `service.html`: PC-Service in Blau/Violett
+- `shop.html`, `product.html`, `cart.html`, `checkout.html`: Shop-Demo
+- `sell.html`: Demo des Warenankaufs
+- `account.html`: lokale Demo des Kundenkontos
+- `kontakt.html`: Kontaktformular-Demo (sendet **keine** Nachrichten)
+- `retur.html`, `handelsbetingelser.html`, `privatliv.html`: rechtliche Entwürfe
+- `inventory.html`: lokale Lager-Demo mit Export/Import (nicht zugangsgeschützt)
 
-## Durchgeführte Arbeiten
-- Kaputte Startseite ersetzt: fehlende Hintergrundgrafik ist nicht mehr notwendig.
-- Responsive GeeTech-Startseite mit animiertem Chip, Service-/Shop-Navigation und Kontaktbereich.
-- Stylesheets nach `css/` und Skript nach `js/` verschoben.
-- HTML-Referenzen angepasst; veraltete Root-Stylesheets und Root-Skript gelöscht.
-- 11 HTML-Seiten und 14 aktuelle HTML/CSS/JS-Ziele auf Repository-Verfügbarkeit geprüft.
+## Styles und Skripte
+- `css/landing.css`: Startseite
+- `css/service.css`: Service
+- `css/site.css`: Shop, Hilfsseiten und Lager
+- `js/service.js`: Animationen auf der Serviceseite
+- `js/site.js`: Demo-Shop, Warenkorb, Formulare und Inventar
+- `assets/service-preview.webp` und `assets/shop-preview.webp`: Startseitenbilder
+- `landing-concept.png`: aufbewahrte Designreferenz, nicht zwingend auf der Startseite verwendet
 
-## Offen vor einem echten öffentlichen Shop-Start
-- Browser- und End-to-End-Tests (Desktop/Mobil).
-- Bestehendes NEXORA-Branding im Shop mit GeeTech abstimmen.
-- Echte Account-Verwaltung, serverseitige Bestandsdaten, Bestell- und Zahlungsabwicklung.
-- Datenschutzerklärung, Widerruf, AGB und gesetzliche Unternehmensangaben fachlich prüfen.
-- Deployment über GitHub Pages aktivieren und veröffentlichte Vorschau testen.
+## Entwicklung und Betrieb
+- `start-local.bat`: lokaler Server für Windows
+- `.github/workflows/verify-static.yml`: Prüfungen der lokalen HTML-/CSS-Dateiverweise
+- `docs/LAUNCH_PLAN.md`: Umstellung von Demo auf späteren Echtbetrieb
+- `README.md`: Einstieg und Betriebsstatus
 
-Die Seite ist weiterhin eine **Demo** und darf nicht als betriebsbereiter E-Commerce-Shop beworben werden.
+## Bereinigung
+Am 29.10.2026 wurden ausschließlich lokale IDE-/Indexartefakte (`.wsuo`, `.vsidx`, `DocumentLayout.json`, `VSWorkspaceState.json`, `slnx.sqlite`) sowie das überflüssige `assets/.gitkeep` entfernt. Die `.gitignore` wurde erweitert. Andere möglicherweise relevante Referenzen und Entwürfe bleiben erhalten.
+
+## Noch offen
+- vollständiger Browsertest (Desktop, Mobil, Touch und Tastatur)
+- echte E-Mail-Anbindung und Backend erst bei passendem Betriebsmodell
+- geschütztes Admin-Login, synchroner Warenbestand und verbindliche Zahlungen erst mit Backend
+- Steuer- und Rechtsprüfung vor kommerziellem Start
+
+**Wichtig:** Ein statischer Dateiverweis-Check ist kein vollständiger Browser-, Sicherheits- oder End-to-End-Test.
