@@ -79,3 +79,23 @@ body{background:radial-gradient(ellipse at 85% 5%,rgba(84,77,173,.18),transparen
 .checker-results #checker-part-cards{margin-bottom:27px}
 #checker-games-section[hidden]{display:none!important}
 @media print{#checker-games-section{display:block!important}.checker-sources a{color:#172d55!important}}
+
+/* Live part descriptions and guided compatible selections */
+.checker-live-info{margin-top:25px;border:1px solid #6674aa90;background:#0b122a99;border-radius:16px;padding:20px}
+.checker-live-heading>span{display:block;color:#9ce3ff;font-size:10px;font-weight:900;letter-spacing:.13em}
+.checker-live-heading h3{font-size:21px;margin:7px 0}
+.checker-live-heading p,.checker-live-parts>p{color:#b6c5e5;font-size:13px;margin:0 0 15px}
+.checker-live-parts{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.checker-live-card{min-width:0;border:1px solid #596998;background:#151d3a;border-radius:12px;padding:17px}
+.checker-live-card h4{font-size:17px;margin:0 0 9px}
+.checker-live-card p,.checker-component-use{font-size:12px;color:#bac8e8;margin:10px 0;line-height:1.65}
+.checker-live-card a{display:block;margin-top:10px;color:#9fe6ff;font-size:12px;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.checker-spec-dl{display:grid;gap:0;margin:12px 0;border-top:1px solid #51618b66}
+.checker-spec-row{display:grid;grid-template-columns:minmax(80px,1fr) minmax(0,1.2fr);gap:12px;padding:8px 0;border-bottom:1px solid #51618b55;font-size:12px}
+.checker-spec-row dt{color:#acb9d9;overflow-wrap:anywhere}
+.checker-spec-row dd{margin:0;font-weight:750;color:#f4f4ff;overflow-wrap:anywhere}
+.checker-evidence{display:block;color:#c8b2ef;font-size:11px;line-height:1.6;margin-top:10px}
+.checker-filter-feedback{background:#152647;border-left:3px solid #8daaff;color:#cbd5ed;border-radius:8px;padding:12px 14px;font-size:12px;margin:18px 0 0;line-height:1.6}
+.checker-fields select option:disabled{color:#8790a9}
+@media(max-width:580px){.checker-live-info{padding:15px}.checker-spec-row{grid-template-columns:1fr;gap:3px}}
+@media print{.checker-live-info,.checker-filter-feedback{display:none!important}.checker-spec-row dt,.checker-spec-row dd,.checker-component-use,.checker-evidence{color:black!important}}
