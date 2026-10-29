@@ -122,7 +122,7 @@
   // AMD's official AM4 chipset matrix excludes desktop Ryzen 1000/2000 from B550.
   // X570 excludes Ryzen 1000, but includes many Ryzen 2000 models.
   if(cpu.socket==="AM4" && cpu.name.startsWith("AMD Ryzen")){
-   const model=cpu.name.match(/Ryzen \\d (\\d{4})/);
+   const model=cpu.name.match(/Ryzen \d (\d{4})/);
    const series=model?Number(model[1][0]):0;
    if(board.chipset==="B550" && (series===1||series===2))
     return {kind:"blocked",reason:"AMD B550 understøtter ikke Ryzen 1000/2000 desktop-serierne ifølge AMD's chipsetoversigt.",
