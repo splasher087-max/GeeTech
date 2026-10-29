@@ -7,6 +7,12 @@
  padding:12px clamp(18px,4vw,72px);
 }
 .site-header .site-brand{grid-column:1;justify-self:start;min-width:0}
+@media(min-width:1101px){
+ .site-header.site-header:not(:has(.site-action)){
+  grid-template-columns:minmax(0,1fr) max-content;
+ }
+ .site-header.site-header:not(:has(.site-action)) .site-main-nav{grid-column:2}
+}
 .site-header .site-main-nav{
  grid-column:2;display:flex;flex-direction:row;
  align-items:center;justify-content:flex-end;gap:clamp(12px,1.5vw,25px);
