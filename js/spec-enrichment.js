@@ -38,7 +38,7 @@
    if(/RTX 50/.test(name))return "Blackwell";
   }
   if(name.startsWith("AMD")){
-   if(/RX (5[789]0|570|580)/.test(name))return "GCN / Polaris (kontrollér præcis model)";
+   if(/RX (570|580)(?![0-9])/.test(name))return "GCN / Polaris (kontrollér præcis model)";
    if(/RX 5[0-9]{3}/.test(name))return "RDNA";
    if(/RX 6[0-9]{3}/.test(name))return "RDNA 2";
    if(/RX 7[0-9]{3}/.test(name))return "RDNA 3";
