@@ -52,3 +52,19 @@
  .trust-benefits{grid-template-columns:1fr}
  .trust-benefits>div{padding:16px 20px}
 }
+
+/* PC Upgrade Checker invitation */
+.checker-promo{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:clamp(20px,6vw,80px);padding-top:85px;padding-bottom:85px}
+.checker-promo-copy h2{font-size:clamp(33px,4vw,55px);line-height:1.13;letter-spacing:-.055em;margin:10px 0 20px}
+.checker-promo-copy>p:not(.eyebrow){font-size:16px;color:#bfc9e7;max-width:600px}
+.checker-promo-copy .btn{margin-top:17px}
+.checker-promo-copy small{display:block;color:#a3b0d3;font-size:11px;margin-top:17px}
+.checker-promo-visual{border:1px solid #7789dd82;border-radius:24px;padding:clamp(22px,4vw,45px);background:radial-gradient(ellipse at 100% 0,#5146aa55,transparent 62%),linear-gradient(135deg,#1b2653,#0e152d);box-shadow:0 20px 75px #050a2280;transform:rotate(-2deg)}
+.checker-promo-top{display:block;color:#91ddff;font-weight:800;letter-spacing:.18em;font-size:10px;margin-bottom:31px}
+.checker-promo-visual>div{display:grid;grid-template-columns:45px 1fr;align-items:center;gap:16px;margin:22px 0}
+.checker-promo-visual>div b{font-size:12px;color:#dbe5ff}
+.checker-promo-bar{display:block;height:12px;border-radius:100px;background:#39416f;overflow:hidden}
+.checker-promo-bar i{display:block;height:100%;border-radius:100px;background:linear-gradient(90deg,#78d9ff,#a893ff)}
+.checker-promo-visual>strong{display:block;margin-top:32px;font-size:12px;letter-spacing:.1em;color:#c1b3ff}
+@media(max-width:850px){.checker-promo{grid-template-columns:1fr}.checker-promo-visual{transform:none}}
+@media(prefers-reduced-motion:reduce){.checker-promo-visual{transform:none}}
