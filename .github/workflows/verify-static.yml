@@ -38,7 +38,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import pathlib, re, sys
-          expected = ["index.html", "service.html", "shop.html", "sell.html", "account.html"]
+          expected = ["index.html", "service.html", "upgrade-checker.html", "shop.html", "sell.html", "account.html"]
           errors = []
           pages = list(pathlib.Path(".").glob("*.html"))
           for page in pages:
@@ -60,4 +60,18 @@ jobs:
               print("ERROR:", issue)
           print(f"Checked shared navigation on {len(pages)} pages; {len(errors)} errors")
           sys.exit(bool(errors))
+          PY
+
+      - name: Check JavaScript syntax
+        run: |
+          for file in js/*.js; do node --check "$file"; done
+      - name: Check SPEC TJEK source links
+        run: |
+          python3 - <<'PY'
+          import pathlib, re, sys
+          js = pathlib.Path("js/upgrade-checker.js").read_text(encoding="utf-8")
+          urls = re.findall(r'https://(?:www\\.)?(?:amd\\.com|intel\\.com|nvidia\\.com)/[^"\\s]+',js)
+          ok = len(urls) >= 5 and 'VERIFIED_SOURCES' in js
+          print("Verified manufacturer source references:",len(urls))
+          if not ok: sys.exit("Missing documented manufacturer references")
           PY
