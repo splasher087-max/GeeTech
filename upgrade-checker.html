@@ -6,8 +6,8 @@
 <title>SPEC TJEK | GeeTech</title>
 <link rel="stylesheet" href="css/service.css">
 <link rel="stylesheet" href="css/navigation.css?v=right-aligned-2">
-<link rel="stylesheet" href="css/upgrade-checker.css?v=3">
-<script src="js/spec-database.js" defer></script><script src="js/spec-enrichment.js?v=2" defer></script><script src="js/spec-extras.js" defer></script><script src="js/spec-games.js" defer></script><script src="js/spec-analyzer.js?v=4" defer></script><script src="js/spec-interactive.js?v=3" defer></script><script src="js/spec-import.js?v=1" defer></script>
+<link rel="stylesheet" href="css/upgrade-checker.css?v=4">
+<script src="js/spec-database.js" defer></script><script src="js/spec-enrichment.js?v=2" defer></script><script src="js/spec-extras.js" defer></script><script src="js/spec-games.js" defer></script><script src="js/spec-analyzer.js?v=4" defer></script><script src="js/spec-interactive.js?v=3" defer></script><script src="js/spec-import.js?v=3" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Spring til indhold</a>
@@ -16,42 +16,46 @@
 <section class="checker-hero">
  <div class="checker-kicker">GEETECH / GRATIS PC-VÆRKTØJ</div>
  <h1>Er din PC klar til <em>det næste niveau?</em></h1>
- <p>Sammensæt din PC med CPU, GPU, bundkort, RAM, lager og strømforsyning. SPEC TJEK leder efter kendte konflikter, viser opgraderingsmuligheder og sammenligner populære spils officielle systemkrav.</p>
+ <p>Vælg CPU, grafikkort, bundkort og RAM – eller brug den automatiske Windows-rapport. SPEC TJEK leder efter kendte konflikter, viser opgraderingsmuligheder og sammenligner populære spils officielle systemkrav.</p>
  <div class="checker-promises"><span>✓ Intet login</span><span>✓ Ingen upload af systemdata</span><span>✓ Kun vejledende anbefalinger</span></div>
 </section>
 <div class="checker-shell">
 <section class="checker-panel" aria-labelledby="check-title">
- <div class="checker-section-heading"><span>01 / DIT SETUP</span><h2 id="check-title">Fortæl os om din PC</h2><p>Du behøver ikke kende alle dele. Lad ukendte felter stå på “Ved ikke”.</p></div>
+ <div class="checker-section-heading"><span>01 / DIT SETUP</span><h2 id="check-title">Fortæl os om din PC</h2><p>Kun de vigtigste oplysninger vises først. Flere tekniske felter er helt valgfrie.</p></div>
  <section class="checker-auto-import" aria-labelledby="auto-import-title">
- <div class="checker-auto-head"><span class="checker-auto-symbol" aria-hidden="true">⌘</span><div><p class="eyebrow">HURTIGERE FOR WINDOWS-BRUGERE</p><h3 id="auto-import-title">Ved du ikke, hvilke dele du har?</h3><p>Du kan bruge en lille, valgfri scanner til at finde CPU, grafikkort, bundkort og RAM. Resultatet bliver gemt i en fil på din egen PC, som du selv åbner her.</p></div></div>
+ <div class="checker-auto-head"><span class="checker-auto-symbol" aria-hidden="true">⌘</span><div><p class="eyebrow">HURTIGERE FOR WINDOWS-BRUGERE</p><h3 id="auto-import-title">Ved du ikke, hvilke dele du har?</h3><p>Du kan bruge en valgfri scanner til at hente navnene på CPU, grafikkort, bundkort og RAM. Den viser også dele, der endnu ikke findes i vores database. Resultatet bliver gemt i en fil på din egen PC, som du selv åbner her.</p></div></div>
  <ol class="checker-auto-steps"><li><a href="tools/GeeTech-SPEC-TJEK.ps1" download>Download GeeTech-scanneren (.ps1) <span aria-hidden="true">↗</span></a></li><li>Åbn filen i Windows PowerShell (højreklik → Kør med PowerShell). Scriptet kræver ikke administratoradgang. Windows kan bede dig om at bekræfte, at du vil køre det.</li><li>Find <strong>GeeTech-SPEC-TJEK-….json</strong> på skrivebordet, og vælg den nedenfor.</li></ol>
  <label class="checker-import-label" for="checker-import-file">Vælg din lokale komponentrapport (.json)</label>
  <input id="checker-import-file" type="file" accept=".json,application/json" aria-describedby="checker-import-disclaimer">
  <p id="checker-import-status" role="status" class="checker-import-status">Der er endnu ikke valgt nogen rapport.</p>
- <p id="checker-import-disclaimer" class="checker-import-disclaimer">Rapporten læses kun i din browser og sendes ikke til GeeTech. Den indsamler ikke serienumre, adgangskoder, filer eller IP-adresser. Nogle dele som strømforsyning, kabinet og præcist RAM-kit kan Windows normalt ikke identificere. Du kan stadig udfylde alt manuelt – ingen download er påkrævet.</p>
+ <div id="checker-detected" class="checker-detected" hidden></div><p id="checker-import-disclaimer" class="checker-import-disclaimer">Rapporten læses kun i din browser og sendes ikke til GeeTech. Den indsamler ikke serienumre, adgangskoder, filer eller IP-adresser. Nogle dele som strømforsyning, kabinet og præcist RAM-kit kan Windows normalt ikke identificere. Du kan stadig udfylde alt manuelt – ingen download er påkrævet.</p>
  </section>
 <p class="checker-filter-intro">Valgene tilpasser sig automatisk hinanden. Hvis en CPU eller et bundkort er gråt, passer det ikke med det nuværende valg. Nulstil eller ryd det styrende valg for at skifte platform. Kompatibilitet for BIOS, stik og fysiske mål kræver stadig kontrol.</p><form id="pc-checker-form">
  <div class="checker-fields">
- <label>Processor / CPU<select id="cpu" name="cpu"><option value="">Vælg eller ved ikke</option></select></label>
- <label>Grafikkort / GPU<select id="gpu" name="gpu"><option value="">Vælg eller ved ikke</option></select></label>
- <label>Bundkort<select id="board" name="board"><option value="">Ved ikke / model ikke på listen</option></select></label>
- <label>Bundkortets CPU-sokkel (hvis du ved det)<select id="socket" name="socket"><option value="">Ved ikke</option><option>AM4</option><option>AM5</option><option>LGA1151</option><option>LGA1200</option><option>LGA1700</option><option>LGA1851</option></select></label>
- <label>RAM-kapacitet<select id="ram" name="ram"><option value="">Ved ikke</option><option value="4">4 GB</option><option value="8">8 GB</option><option value="12">12 GB</option><option value="16">16 GB</option><option value="24">24 GB</option><option value="32">32 GB</option><option value="48">48 GB</option><option value="64">64 GB</option><option value="128">128 GB</option></select></label>
- <label>Præcist RAM-kit (valgfrit)<select id="ramkit" name="ramkit"><option value="">Ikke på listen / ved ikke</option></select></label>
-  <label>RAM-type<select id="ramtype" name="ramtype"><option value="">Ved ikke</option><option>DDR3</option><option>DDR4</option><option>DDR5</option></select></label>
- <label>Systemdisk<select id="storage" name="storage"><option value="">Ved ikke</option><option value="hdd">Harddisk / HDD</option><option value="sata">SATA SSD</option><option value="nvme">NVMe SSD</option></select></label>
- <label>Præcis SSD-model (valgfrit)<select id="drive" name="drive"><option value="">Ikke på listen / ved ikke</option></select></label>
-  <label>Samlet diskplads<select id="capacity" name="capacity"><option value="">Ved ikke</option><option value="128">128 GB</option><option value="256">256 GB</option><option value="512">512 GB</option><option value="1000">1 TB</option><option value="2000">2 TB</option><option value="4000">4 TB</option></select></label>
- <label>Strømforsyning / PSU<select id="psu" name="psu"><option value="">Ved ikke</option></select></label>
- <label>Præcis PSU-model (valgfrit)<select id="psumodel" name="psumodel"><option value="">Ikke på listen / ved ikke</option></select></label>
-  <label>Kabinetstørrelse<select id="case" name="case"><option value="">Ved ikke</option></select></label>
- <label>Præcis kabinetmodel (valgfrit)<select id="casemodel" name="casemodel"><option value="">Ikke på listen / ved ikke</option></select></label>
-  <label>Hvad bruger du PC'en til?<select id="use" name="use"><option value="gaming">Gaming</option><option value="general">Internet / skole / kontor</option><option value="creative">Video- og billedredigering</option><option value="stream">Gaming og streaming</option></select></label>
- <label>Skærmopløsning<select id="resolution" name="resolution"><option value="">Ved ikke</option><option value="1080">1080p</option><option value="1440">1440p</option><option value="2160">4K</option></select></label>
- <label>Hvad oplever du?<select id="issue" name="issue"><option value="none">Intet konkret problem</option><option value="slow">Langsom opstart eller programmer</option><option value="fps">Lav FPS eller hakken</option><option value="hot">Varme eller støj</option><option value="space">Mangel på plads</option><option value="crash">Nedbrud / ustabilitet</option></select></label>
- <label>Hvilket spil vil du især spille?<select id="game" name="game"><option value="all">Vis alle populære spil</option></select></label>
+ <label>Processor (CPU)<select id="cpu" name="cpu"><option value="">Vælg eller ved ikke</option></select></label>
+ <label>Grafikkort (GPU)<select id="gpu" name="gpu"><option value="">Vælg eller ved ikke</option></select></label>
+ <label>Bundkort<select id="board" name="board"><option value="">Ved ikke / ikke på listen</option></select></label>
+ <label>RAM-mængde<select id="ram" name="ram"><option value="">Ved ikke</option><option value="4">4 GB</option><option value="8">8 GB</option><option value="12">12 GB</option><option value="16">16 GB</option><option value="24">24 GB</option><option value="32">32 GB</option><option value="48">48 GB</option><option value="64">64 GB</option><option value="128">128 GB</option></select></label>
+ <label>Disktype<select id="storage" name="storage"><option value="">Ved ikke</option><option value="hdd">HDD</option><option value="sata">SATA SSD</option><option value="nvme">NVMe SSD</option></select></label>
+ <label>Hvad skal PC'en bruges til?<select id="use" name="use"><option value="gaming">Gaming</option><option value="general">Skole, kontor og internet</option><option value="creative">Video og kreativt arbejde</option><option value="stream">Gaming og streaming</option></select></label>
  </div>
- <section class="checker-live-info" aria-labelledby="live-spec-title"><div class="checker-live-heading"><span>LIVE INFORMATION</span><h3 id="live-spec-title">Specifikationer for dine valgte dele</h3><p>Viser konkrete tekniske felter, komponentens rolle og dokumentation. Tal markeret som katalogdata kræver kontrol på præcis model.</p></div><div id="checker-live-parts" class="checker-live-parts" aria-live="polite"><p>Vælg en komponent ovenfor for at se dens detaljer.</p></div></section><details class="checker-extra"><summary>Kan du ikke finde din præcise model?</summary><p>Indtast modellen her. SPEC TJEK opfinder ikke tekniske data for ukendte modeller, men kan stadig bruge øvrige oplysninger.</p><div class="checker-fields"><label>Anden CPU<input id="cpu-custom" maxlength="100" placeholder="Fx Ryzen 7 5700G"></label><label>Andet grafikkort<input id="gpu-custom" maxlength="100" placeholder="Fx RTX 4070 Laptop"></label><label>Andet bundkort<input id="board-custom" maxlength="100" placeholder="Fx ASUS B550M-K"></label><label>Præcis strømforsyning / model<input id="psu-custom" maxlength="100" placeholder="Fx Corsair RM650x"></label></div></details>
+ <details class="checker-advanced"><summary>Avancerede oplysninger (valgfrit) <span>— til mere præcis kompatibilitet</span></summary>
+ <p>Disse oplysninger behøver du ikke kende. De bruges kun, hvis du ønsker et mere detaljeret tjek.</p>
+ <div class="checker-fields">
+ <label>RAM-type<select id="ramtype" name="ramtype"><option value="">Ved ikke</option><option>DDR3</option><option>DDR4</option><option>DDR5</option></select></label>
+ <label>CPU-sokkel<select id="socket" name="socket"><option value="">Automatisk / ved ikke</option><option>AM4</option><option>AM5</option><option>LGA1151</option><option>LGA1200</option><option>LGA1700</option><option>LGA1851</option></select></label>
+ <label>Strømforsyning<select id="psu" name="psu"><option value="">Ved ikke</option></select></label>
+ <label>Kabinetstørrelse<select id="case" name="case"><option value="">Ved ikke</option></select></label>
+ <label>Skærmopløsning<select id="resolution" name="resolution"><option value="">Ved ikke</option><option value="1080">1080p</option><option value="1440">1440p</option><option value="2160">4K</option></select></label>
+ <label>Oplever du problemer?<select id="issue" name="issue"><option value="none">Ingen særlige problemer</option><option value="slow">Langsom PC</option><option value="fps">Lav FPS</option><option value="hot">Varme eller støj</option><option value="space">Mangel på plads</option><option value="crash">Nedbrud</option></select></label>
+ <label>Spil til sammenligning<select id="game" name="game"><option value="all">Vis alle spil</option></select></label>
+ <label>Diskkapacitet<select id="capacity" name="capacity"><option value="">Ved ikke</option><option value="128">128 GB</option><option value="256">256 GB</option><option value="512">512 GB</option><option value="1000">1 TB</option><option value="2000">2 TB</option><option value="4000">4 TB</option></select></label>
+ <label>Præcis RAM-model<select id="ramkit" name="ramkit"><option value="">Ved ikke</option></select></label>
+ <label>Præcis SSD-model<select id="drive" name="drive"><option value="">Ved ikke</option></select></label>
+ <label>Præcis PSU-model<select id="psumodel" name="psumodel"><option value="">Ved ikke</option></select></label>
+ <label>Præcis kabinetmodel<select id="casemodel" name="casemodel"><option value="">Ved ikke</option></select></label>
+ </div></details>
+ <section class="checker-live-info" aria-labelledby="live-spec-title"><div class="checker-live-heading"><span>LIVE INFORMATION</span><h3 id="live-spec-title">Specifikationer for dine valgte dele</h3><p>Viser konkrete tekniske felter, komponentens rolle og dokumentation. Tal markeret som katalogdata kræver kontrol på præcis model.</p></div><div id="checker-live-parts" class="checker-live-parts" aria-live="polite"><p>Vælg CPU, grafikkort eller bundkort for at se oplysninger.</p></div></section><details class="checker-extra"><summary>Kan du ikke finde din præcise model?</summary><p>Indtast modellen her. SPEC TJEK opfinder ikke tekniske data for ukendte modeller, men kan stadig bruge øvrige oplysninger.</p><div class="checker-fields"><label>Anden CPU<input id="cpu-custom" maxlength="100" placeholder="Fx Ryzen 7 5700G"></label><label>Andet grafikkort<input id="gpu-custom" maxlength="100" placeholder="Fx RTX 4070 Laptop"></label><label>Andet bundkort<input id="board-custom" maxlength="100" placeholder="Fx ASUS B550M-K"></label><label>Præcis strømforsyning / model<input id="psu-custom" maxlength="100" placeholder="Fx Corsair RM650x"></label></div></details>
  <div class="checker-actions"><button class="checker-primary" type="submit">Tjek hele mit build ↗</button><button class="checker-secondary" type="reset">Nulstil</button></div>
  </form>
 </section>
