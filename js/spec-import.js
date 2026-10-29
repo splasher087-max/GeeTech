@@ -4,7 +4,7 @@
  const db=window.GEETECH_DB;
  if(!fileInput||!message||!db)return;
  const get=id=>document.getElementById(id);
- const norm=value=>String(value||"").toLowerCase().replace(/\(r\)|\(tm\)|\bprocessor\b|\bcpu\b|\bgraphics\b/g,"").replace(/[^a-z0-9]/g,"");
+ const norm=value=>String(value||"").toLowerCase().replace(/\(r\)|\(tm\)|\bprocessor\b|\bcpu\b|\bgraphics\b|\bdisplay adapter\b/g,"").replace(/[^a-z0-9]/g,"");
  const match=(items,name)=>{
   const key=norm(name);
   if(key.length<5)return null;
@@ -23,7 +23,13 @@
     return short.length>=9&&(key===short||key.startsWith(short));
    });
   }
-  return found.length===1?found[0]:null;
+  if(found.length===1)return found[0];
+  // A Windows CPU string may include clock speed and core count, while GPUs may
+  // be named with vendor suffixes. Avoid guessing when models are ambiguous.
+  const tokenKey=key.replace(/(\d+core|\d+thread|\d+ghz).*$/,"");
+  found=items.filter(x=>tokenKey.startsWith(norm(x.name))&&norm(x.name).length>=7);
+  found.sort((a,b)=>norm(b.name).length-norm(a.name).length);
+  return found.length&&(!found[1]||norm(found[0].name).length>norm(found[1].name).length)?found[0]:null;
  };
  const choose=(id,value)=>{
   const select=get(id);
@@ -32,6 +38,30 @@
   select.value=String(value);
   select.dispatchEvent(new Event("change",{bubbles:true}));
   return true;
+ };
+ const detected=document.getElementById("checker-detected");
+ const showDetected=(data)=>{
+  if(!detected)return;
+  detected.replaceChildren();
+  const heading=document.createElement("h4");heading.textContent="Registreret på din PC";detected.append(heading);
+  const list=document.createElement("dl");list.className="checker-detected-list";
+  const line=(label,value)=>{
+   const row=document.createElement("div");
+   const dt=document.createElement("dt");dt.textContent=label;
+   const dd=document.createElement("dd");dd.textContent=value||"Ikke fundet";
+   row.append(dt,dd);list.append(row);
+  };
+  line("Processor",Array.isArray(data.cpu)?data.cpu.join(", "):"");
+  line("Grafikkort",Array.isArray(data.gpu)?data.gpu.join(", "):"");
+  const b=data.motherboard||{};
+  line("Bundkort",[b.manufacturer,b.model].filter(x=>typeof x==="string"&&x.trim()).join(" "));
+  line("RAM",data.memory?.totalGB?data.memory.totalGB+" GB"+(data.memory.type&&data.memory.type!=="unknown"?" "+data.memory.type:""):"");
+  if(Array.isArray(data.disks)&&data.disks.length){
+   line("Diske",data.disks.slice(0,8).map(x=>[x.model,x.sizeGB?x.sizeGB+" GB":""].filter(Boolean).join(" · ")).join(", "));
+  }
+  detected.append(list);
+  const note=document.createElement("p");note.textContent="Alle registrerede navne vises her, også hvis modellen ikke findes i GeeTech-databasen. Ukendte modeller kan ikke få en præcis automatisk ydelsesvurdering.";detected.append(note);
+  detected.hidden=false;
  };
  const named=(id,custom,entries,catalog,notes)=>{
   if(!Array.isArray(entries))return;
@@ -52,6 +82,7 @@
    }
    get("pc-checker-form").reset();
    const notes=[];
+   showDetected(data);
    const board=data.motherboard&&typeof data.motherboard==="object"?data.motherboard:{};
    const boardName=[board.manufacturer,board.model].filter(x=>typeof x==="string").join(" ").trim();
    const matched=match(db.boards,boardName)||match(db.boards,board.model);
@@ -69,7 +100,7 @@
       notes.push("RAM-type "+data.memory.type+" kunne ikke vælges pga. kompatibilitetsfilter");
    const disks=Array.isArray(data.disks)?data.disks.slice(0,12):[];
    if(disks.length)notes.push(disks.length+" diske registreret – systemdisk vælges manuelt");
-   notes.push("Strømforsyning og kabinet udfyldes manuelt");
+   notes.push("Strømforsyning og kabinet er valgfrie avancerede felter");
    get("cpu").dispatchEvent(new Event("change",{bubbles:true}));
    message.textContent="Rapport læst lokalt. "+notes.join(". ")+". Tryk nu på Tjek hele mit build.";
   }catch(error){
