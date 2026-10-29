@@ -2,8 +2,8 @@
 <html lang="da"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b1025">
-<meta name="description" content="GeeTech PC Upgrade Checker: undersøg alder, egenskaber og mulige opgraderinger til din CPU, GPU, RAM og lager.">
-<title>PC Upgrade Checker | GeeTech</title>
+<meta name="description" content="GeeTech SPEC TJEK: undersøg alder, egenskaber og mulige opgraderinger til din CPU, GPU, RAM og lager.">
+<title>SPEC TJEK | GeeTech</title>
 <link rel="stylesheet" href="css/service.css">
 <link rel="stylesheet" href="css/navigation.css?v=right-aligned-2">
 <link rel="stylesheet" href="css/upgrade-checker.css">
@@ -11,7 +11,7 @@
 </head>
 <body>
 <a class="skip" href="#main">Spring til indhold</a>
-<header class="nav site-header"><a class="logo site-brand" href="index.html" aria-label="GeeTech forside"><span class="mark">G</span>Gee<span>Tech</span><small>/ PC TJEK</small></a><nav class="nav-links site-main-nav" aria-label="Hovednavigation"><a href="index.html">Forside</a><a href="service.html" class="active">PC Service</a><a href="shop.html">Webshop</a><a href="sell.html">Sælg dit gear</a><a href="account.html">Min konto</a></nav><a class="nav-cta site-action" href="service.html">Til service ↗</a></header>
+<header class="nav site-header"><a class="logo site-brand" href="index.html" aria-label="GeeTech forside"><span class="mark">G</span>Gee<span>Tech</span><small>/ SPEC TJEK</small></a><nav class="nav-links site-main-nav" aria-label="Hovednavigation"><a href="index.html">Forside</a><a href="service.html">PC Service</a><a href="upgrade-checker.html" class="active" aria-current="page">SPEC TJEK</a><a href="shop.html">Webshop</a><a href="sell.html">Sælg dit gear</a><a href="account.html">Min konto</a></nav><a class="nav-cta site-action" href="service.html">Til service ↗</a></header>
 <main id="main">
 <section class="checker-hero">
  <div class="checker-kicker">GEETECH / GRATIS PC-VÆRKTØJ</div>
@@ -30,6 +30,10 @@
   <label>RAM-type<select id="ramtype" name="ramtype"><option value="">Ved ikke</option><option value="DDR3">DDR3</option><option value="DDR4">DDR4</option><option value="DDR5">DDR5</option></select></label>
   <label>Systemdisk<select id="storage" name="storage"><option value="">Ved ikke</option><option value="hdd">Harddisk (HDD)</option><option value="sata">SATA SSD</option><option value="nvme">NVMe SSD</option></select></label>
   <label>Bundkortets CPU-sokkel<select id="socket" name="socket"><option value="">Ved ikke</option><option value="AM4">AMD AM4</option><option value="AM5">AMD AM5</option><option value="LGA1151">Intel LGA1151</option><option value="LGA1200">Intel LGA1200</option><option value="LGA1700">Intel LGA1700</option><option value="LGA1851">Intel LGA1851</option><option value="other">Anden / ukendt</option></select></label>
+  <label>Bundkortmodel (valgfrit)<input name="motherboard" id="motherboard" maxlength="100" placeholder="Fx MSI B550 Tomahawk"></label>
+  <label>Strømforsyning (watt)<select id="psu" name="psu"><option value="">Ved ikke</option><option value="350">350 W eller mindre</option><option value="450">450 W</option><option value="550">550 W</option><option value="650">650 W</option><option value="750">750 W</option><option value="850">850 W eller mere</option></select></label>
+  <label>Lagerplads på systemdisken<select id="capacity" name="capacity"><option value="">Ved ikke</option><option value="128">128 GB eller mindre</option><option value="256">256 GB</option><option value="512">512 GB</option><option value="1000">1 TB</option><option value="2000">2 TB eller mere</option></select></label>
+  <label>Din PC's største problem<select id="issue" name="issue"><option value="none">Ingen bestemt fejl – vil bare have overblik</option><option value="slow">Langsom opstart og programmer</option><option value="fps">Lav FPS / hakkende spil</option><option value="hot">Høj varme eller meget støj</option><option value="space">Mangler lagerplads</option><option value="crash">Nedbrud / ustabilitet</option></select></label>
   <label>Hvad bruger du mest PC'en til?<select id="use" name="use"><option value="general">Internet, skole og kontor</option><option value="gaming">Gaming</option><option value="creative">Video, billeder og kreativt arbejde</option><option value="stream">Gaming og streaming</option></select></label>
   <label>Skærmopløsning<select id="resolution" name="resolution"><option value="">Ved ikke / ikke relevant</option><option value="1080">1080p</option><option value="1440">1440p</option><option value="2160">4K</option></select></label>
  </div>
@@ -43,7 +47,7 @@
  <div id="checker-output" hidden aria-live="polite">
   <div class="checker-status" id="checker-status"></div>
   <div id="checker-part-cards" class="checker-part-cards"></div>
-  <h3 class="checker-mini-title">Hvad bør du kigge på?</h3>
+  <h3 class="checker-mini-title">Muligheder og næste skridt</h3>
   <div id="checker-advice" class="checker-advice"></div>
   <div class="checker-export"><button class="checker-secondary" type="button" id="checker-copy">Kopiér rapport</button><button class="checker-secondary" type="button" id="checker-print">Print rapport</button><span id="checker-copy-feedback" role="status"></span></div>
  </div>
@@ -56,9 +60,9 @@
  <article><span>02</span><h3>Kompatibilitet skal kontrolleres</h3><p>Sokkel og RAM-type er kun første skridt. BIOS, bundkortmodel, strømforsyning, køling og plads i kabinettet skal også passe.</p></article>
  <article><span>03</span><h3>Ingen falske FPS-tal</h3><p>Vi oplyser ikke præcise billedhastigheder eller garantier ud fra en simpel komponentliste. Spil, indstillinger og resten af systemet har betydning.</p></article>
  </div>
- <div class="checker-warning"><strong>Vigtigt:</strong> Værktøjet er en lokal vejledende demo baseret på et begrænset udvalg af komponenter. Ingen data sendes til GeeTech. Det erstatter ikke en teknisk gennemgang eller en professionel kompatibilitetskontrol. Ingen servicebooking eller kontaktformular er aktiv endnu.</div>
+ <div class="checker-warning"><strong>Vigtigt:</strong> Værktøjet er en lokal vejledende demo baseret på et begrænset udvalg af kendte CPU- og GPU-modeller. Ingen data sendes til GeeTech. Det erstatter ikke en teknisk gennemgang eller en professionel kompatibilitetskontrol. Ingen servicebooking eller kontaktformular er aktiv endnu.</div>
  <p class="checker-back"><a href="service.html">← Tilbage til GeeTech PC Service</a></p>
 </section>
 </main>
-<footer><a class="logo" href="index.html"><span class="mark">G</span>Gee<span>Tech</span></a><p>© 2026 GeeTech · Vejledende PC Upgrade Checker</p><div><a href="service.html">PC Service</a><a href="privatliv.html">Privatliv</a></div></footer>
+<footer><a class="logo" href="index.html"><span class="mark">G</span>Gee<span>Tech</span></a><p>© 2026 GeeTech · Vejledende SPEC TJEK</p><div><a href="service.html">PC Service</a><a href="privatliv.html">Privatliv</a></div></footer>
 </body></html>
