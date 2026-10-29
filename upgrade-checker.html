@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="css/service.css">
 <link rel="stylesheet" href="css/navigation.css?v=right-aligned-2">
 <link rel="stylesheet" href="css/upgrade-checker.css?v=3">
-<script src="js/spec-database.js" defer></script><script src="js/spec-enrichment.js?v=2" defer></script><script src="js/spec-extras.js" defer></script><script src="js/spec-games.js" defer></script><script src="js/spec-analyzer.js?v=4" defer></script><script src="js/spec-interactive.js?v=3" defer></script>
+<script src="js/spec-database.js" defer></script><script src="js/spec-enrichment.js?v=2" defer></script><script src="js/spec-extras.js" defer></script><script src="js/spec-games.js" defer></script><script src="js/spec-analyzer.js?v=4" defer></script><script src="js/spec-interactive.js?v=3" defer></script><script src="js/spec-import.js?v=1" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Spring til indhold</a>
@@ -22,7 +22,15 @@
 <div class="checker-shell">
 <section class="checker-panel" aria-labelledby="check-title">
  <div class="checker-section-heading"><span>01 / DIT SETUP</span><h2 id="check-title">Fortæl os om din PC</h2><p>Du behøver ikke kende alle dele. Lad ukendte felter stå på “Ved ikke”.</p></div>
- <p class="checker-filter-intro">Valgene tilpasser sig automatisk hinanden. Hvis en CPU eller et bundkort er gråt, passer det ikke med det nuværende valg. Nulstil eller ryd det styrende valg for at skifte platform. Kompatibilitet for BIOS, stik og fysiske mål kræver stadig kontrol.</p><form id="pc-checker-form">
+ <section class="checker-auto-import" aria-labelledby="auto-import-title">
+ <div class="checker-auto-head"><span class="checker-auto-symbol" aria-hidden="true">⌘</span><div><p class="eyebrow">HURTIGERE FOR WINDOWS-BRUGERE</p><h3 id="auto-import-title">Ved du ikke, hvilke dele du har?</h3><p>Du kan bruge en lille, valgfri scanner til at finde CPU, grafikkort, bundkort og RAM. Resultatet bliver gemt i en fil på din egen PC, som du selv åbner her.</p></div></div>
+ <ol class="checker-auto-steps"><li><a href="tools/GeeTech-SPEC-TJEK.ps1" download>Download GeeTech-scanneren (.ps1) <span aria-hidden="true">↗</span></a></li><li>Åbn filen i Windows PowerShell (højreklik → Kør med PowerShell). Scriptet kræver ikke administratoradgang. Windows kan bede dig om at bekræfte, at du vil køre det.</li><li>Find <strong>GeeTech-SPEC-TJEK-….json</strong> på skrivebordet, og vælg den nedenfor.</li></ol>
+ <label class="checker-import-label" for="checker-import-file">Vælg din lokale komponentrapport (.json)</label>
+ <input id="checker-import-file" type="file" accept=".json,application/json" aria-describedby="checker-import-disclaimer">
+ <p id="checker-import-status" role="status" class="checker-import-status">Der er endnu ikke valgt nogen rapport.</p>
+ <p id="checker-import-disclaimer" class="checker-import-disclaimer">Rapporten læses kun i din browser og sendes ikke til GeeTech. Den indsamler ikke serienumre, adgangskoder, filer eller IP-adresser. Nogle dele som strømforsyning, kabinet og præcist RAM-kit kan Windows normalt ikke identificere. Du kan stadig udfylde alt manuelt – ingen download er påkrævet.</p>
+ </section>
+<p class="checker-filter-intro">Valgene tilpasser sig automatisk hinanden. Hvis en CPU eller et bundkort er gråt, passer det ikke med det nuværende valg. Nulstil eller ryd det styrende valg for at skifte platform. Kompatibilitet for BIOS, stik og fysiske mål kræver stadig kontrol.</p><form id="pc-checker-form">
  <div class="checker-fields">
  <label>Processor / CPU<select id="cpu" name="cpu"><option value="">Vælg eller ved ikke</option></select></label>
  <label>Grafikkort / GPU<select id="gpu" name="gpu"><option value="">Vælg eller ved ikke</option></select></label>
