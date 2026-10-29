@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="css/service.css">
 <link rel="stylesheet" href="css/navigation.css?v=right-aligned-2">
 <link rel="stylesheet" href="css/upgrade-checker.css?v=3">
-<script src="js/spec-database.js" defer></script><script src="js/spec-enrichment.js?v=2" defer></script><script src="js/spec-games.js" defer></script><script src="js/spec-analyzer.js?v=3" defer></script><script src="js/spec-interactive.js?v=1" defer></script>
+<script src="js/spec-database.js" defer></script><script src="js/spec-enrichment.js?v=2" defer></script><script src="js/spec-extras.js" defer></script><script src="js/spec-games.js" defer></script><script src="js/spec-analyzer.js?v=4" defer></script><script src="js/spec-interactive.js?v=2" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Spring til indhold</a>
@@ -29,12 +29,16 @@
  <label>Bundkort<select id="board" name="board"><option value="">Ved ikke / model ikke på listen</option></select></label>
  <label>Bundkortets CPU-sokkel (hvis du ved det)<select id="socket" name="socket"><option value="">Ved ikke</option><option>AM4</option><option>AM5</option><option>LGA1151</option><option>LGA1200</option><option>LGA1700</option><option>LGA1851</option></select></label>
  <label>RAM-kapacitet<select id="ram" name="ram"><option value="">Ved ikke</option><option value="4">4 GB</option><option value="8">8 GB</option><option value="12">12 GB</option><option value="16">16 GB</option><option value="24">24 GB</option><option value="32">32 GB</option><option value="48">48 GB</option><option value="64">64 GB</option><option value="128">128 GB</option></select></label>
- <label>RAM-type<select id="ramtype" name="ramtype"><option value="">Ved ikke</option><option>DDR3</option><option>DDR4</option><option>DDR5</option></select></label>
+ <label>Præcist RAM-kit (valgfrit)<select id="ramkit" name="ramkit"><option value="">Ikke på listen / ved ikke</option></select></label>
+  <label>RAM-type<select id="ramtype" name="ramtype"><option value="">Ved ikke</option><option>DDR3</option><option>DDR4</option><option>DDR5</option></select></label>
  <label>Systemdisk<select id="storage" name="storage"><option value="">Ved ikke</option><option value="hdd">Harddisk / HDD</option><option value="sata">SATA SSD</option><option value="nvme">NVMe SSD</option></select></label>
- <label>Samlet diskplads<select id="capacity" name="capacity"><option value="">Ved ikke</option><option value="128">128 GB</option><option value="256">256 GB</option><option value="512">512 GB</option><option value="1000">1 TB</option><option value="2000">2 TB</option><option value="4000">4 TB</option></select></label>
+ <label>Præcis SSD-model (valgfrit)<select id="drive" name="drive"><option value="">Ikke på listen / ved ikke</option></select></label>
+  <label>Samlet diskplads<select id="capacity" name="capacity"><option value="">Ved ikke</option><option value="128">128 GB</option><option value="256">256 GB</option><option value="512">512 GB</option><option value="1000">1 TB</option><option value="2000">2 TB</option><option value="4000">4 TB</option></select></label>
  <label>Strømforsyning / PSU<select id="psu" name="psu"><option value="">Ved ikke</option></select></label>
- <label>Kabinetstørrelse<select id="case" name="case"><option value="">Ved ikke</option></select></label>
- <label>Hvad bruger du PC'en til?<select id="use" name="use"><option value="gaming">Gaming</option><option value="general">Internet / skole / kontor</option><option value="creative">Video- og billedredigering</option><option value="stream">Gaming og streaming</option></select></label>
+ <label>Præcis PSU-model (valgfrit)<select id="psumodel" name="psumodel"><option value="">Ikke på listen / ved ikke</option></select></label>
+  <label>Kabinetstørrelse<select id="case" name="case"><option value="">Ved ikke</option></select></label>
+ <label>Præcis kabinetmodel (valgfrit)<select id="casemodel" name="casemodel"><option value="">Ikke på listen / ved ikke</option></select></label>
+  <label>Hvad bruger du PC'en til?<select id="use" name="use"><option value="gaming">Gaming</option><option value="general">Internet / skole / kontor</option><option value="creative">Video- og billedredigering</option><option value="stream">Gaming og streaming</option></select></label>
  <label>Skærmopløsning<select id="resolution" name="resolution"><option value="">Ved ikke</option><option value="1080">1080p</option><option value="1440">1440p</option><option value="2160">4K</option></select></label>
  <label>Hvad oplever du?<select id="issue" name="issue"><option value="none">Intet konkret problem</option><option value="slow">Langsom opstart eller programmer</option><option value="fps">Lav FPS eller hakken</option><option value="hot">Varme eller støj</option><option value="space">Mangel på plads</option><option value="crash">Nedbrud / ustabilitet</option></select></label>
  <label>Hvilket spil vil du især spille?<select id="game" name="game"><option value="all">Vis alle populære spil</option></select></label>
