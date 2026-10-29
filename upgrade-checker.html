@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="da"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1025">
+<meta name="description" content="GeeTech PC Upgrade Checker: undersøg alder, egenskaber og mulige opgraderinger til din CPU, GPU, RAM og lager.">
+<title>PC Upgrade Checker | GeeTech</title>
+<link rel="stylesheet" href="css/service.css">
+<link rel="stylesheet" href="css/navigation.css?v=right-aligned-2">
+<link rel="stylesheet" href="css/upgrade-checker.css">
+<script src="js/upgrade-checker.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Spring til indhold</a>
+<header class="nav site-header"><a class="logo site-brand" href="index.html" aria-label="GeeTech forside"><span class="mark">G</span>Gee<span>Tech</span><small>/ PC TJEK</small></a><nav class="nav-links site-main-nav" aria-label="Hovednavigation"><a href="index.html">Forside</a><a href="service.html" class="active">PC Service</a><a href="shop.html">Webshop</a><a href="sell.html">Sælg dit gear</a><a href="account.html">Min konto</a></nav><a class="nav-cta site-action" href="service.html">Til service ↗</a></header>
+<main id="main">
+<section class="checker-hero">
+ <div class="checker-kicker">GEETECH / GRATIS PC-VÆRKTØJ</div>
+ <h1>Er din PC klar til <em>det næste niveau?</em></h1>
+ <p>Vælg dine komponenter, og få et første overblik over deres alder, hvad de typisk egner sig til, og hvilke opgraderinger der er værd at undersøge.</p>
+ <div class="checker-promises"><span>✓ Intet login</span><span>✓ Ingen upload af systemdata</span><span>✓ Kun vejledende anbefalinger</span></div>
+</section>
+<div class="checker-shell">
+<section class="checker-panel" aria-labelledby="check-title">
+ <div class="checker-section-heading"><span>01 / DIT SETUP</span><h2 id="check-title">Fortæl os om din PC</h2><p>Du behøver ikke kende alle dele. Lad ukendte felter stå på “Ved ikke”.</p></div>
+ <form id="pc-checker-form">
+ <div class="checker-fields">
+  <label>Processor (CPU)<select id="cpu" name="cpu"><option value="">Vælg eller ved ikke</option></select></label>
+  <label>Grafikkort (GPU)<select id="gpu" name="gpu"><option value="">Vælg eller ved ikke</option></select></label>
+  <label>RAM-mængde<select id="ram" name="ram"><option value="">Ved ikke</option><option value="4">4 GB</option><option value="8">8 GB</option><option value="16">16 GB</option><option value="32">32 GB</option><option value="64">64 GB eller mere</option></select></label>
+  <label>RAM-type<select id="ramtype" name="ramtype"><option value="">Ved ikke</option><option value="DDR3">DDR3</option><option value="DDR4">DDR4</option><option value="DDR5">DDR5</option></select></label>
+  <label>Systemdisk<select id="storage" name="storage"><option value="">Ved ikke</option><option value="hdd">Harddisk (HDD)</option><option value="sata">SATA SSD</option><option value="nvme">NVMe SSD</option></select></label>
+  <label>Bundkortets CPU-sokkel<select id="socket" name="socket"><option value="">Ved ikke</option><option value="AM4">AMD AM4</option><option value="AM5">AMD AM5</option><option value="LGA1151">Intel LGA1151</option><option value="LGA1200">Intel LGA1200</option><option value="LGA1700">Intel LGA1700</option><option value="LGA1851">Intel LGA1851</option><option value="other">Anden / ukendt</option></select></label>
+  <label>Hvad bruger du mest PC'en til?<select id="use" name="use"><option value="general">Internet, skole og kontor</option><option value="gaming">Gaming</option><option value="creative">Video, billeder og kreativt arbejde</option><option value="stream">Gaming og streaming</option></select></label>
+  <label>Skærmopløsning<select id="resolution" name="resolution"><option value="">Ved ikke / ikke relevant</option><option value="1080">1080p</option><option value="1440">1440p</option><option value="2160">4K</option></select></label>
+ </div>
+ <details class="checker-extra"><summary>Kan du ikke finde din CPU eller GPU?</summary><p>Vælg “Anden model / ikke på listen” og skriv navnet her. Vi viser det i rapporten, men opfinder ikke alder eller ydelsesdata.</p><div class="checker-fields"><label>Anden CPU-model<input id="cpu-custom" name="cpu-custom" maxlength="90" placeholder="Fx Intel Core i7-9700K"></label><label>Anden GPU-model<input id="gpu-custom" name="gpu-custom" maxlength="90" placeholder="Fx Radeon RX 6600"></label></div></details>
+ <div class="checker-actions"><button type="submit" class="checker-primary">Analysér min PC <span aria-hidden="true">↗</span></button><button type="reset" class="checker-secondary">Nulstil</button></div>
+ </form>
+</section>
+<section class="checker-panel checker-results" aria-labelledby="results-title">
+ <div class="checker-section-heading"><span>02 / DIN VURDERING</span><h2 id="results-title">Din PC-rapport</h2><p>Fakta om kendte modeller, plus en praktisk vurdering til dit brug.</p></div>
+ <div id="checker-placeholder" class="checker-placeholder"><div class="checker-placeholder-icon" aria-hidden="true">⌘</div><h3>Klar, når du er</h3><p>Udfyld de dele, du kender, og tryk på “Analysér min PC”.</p></div>
+ <div id="checker-output" hidden aria-live="polite">
+  <div class="checker-status" id="checker-status"></div>
+  <div id="checker-part-cards" class="checker-part-cards"></div>
+  <h3 class="checker-mini-title">Hvad bør du kigge på?</h3>
+  <div id="checker-advice" class="checker-advice"></div>
+  <div class="checker-export"><button class="checker-secondary" type="button" id="checker-copy">Kopiér rapport</button><button class="checker-secondary" type="button" id="checker-print">Print rapport</button><span id="checker-copy-feedback" role="status"></span></div>
+ </div>
+</section>
+</div>
+<section class="checker-explain">
+ <h2>Sådan bruger du resultatet</h2>
+ <div class="checker-explain-grid">
+ <article><span>01</span><h3>Alder er ikke alt</h3><p>En ældre komponent kan stadig være rigtig god til dit behov. Vi vurderer ikke kun ud fra årstallet.</p></article>
+ <article><span>02</span><h3>Kompatibilitet skal kontrolleres</h3><p>Sokkel og RAM-type er kun første skridt. BIOS, bundkortmodel, strømforsyning, køling og plads i kabinettet skal også passe.</p></article>
+ <article><span>03</span><h3>Ingen falske FPS-tal</h3><p>Vi oplyser ikke præcise billedhastigheder eller garantier ud fra en simpel komponentliste. Spil, indstillinger og resten af systemet har betydning.</p></article>
+ </div>
+ <div class="checker-warning"><strong>Vigtigt:</strong> Værktøjet er en lokal vejledende demo baseret på et begrænset udvalg af komponenter. Ingen data sendes til GeeTech. Det erstatter ikke en teknisk gennemgang eller en professionel kompatibilitetskontrol. Ingen servicebooking eller kontaktformular er aktiv endnu.</div>
+ <p class="checker-back"><a href="service.html">← Tilbage til GeeTech PC Service</a></p>
+</section>
+</main>
+<footer><a class="logo" href="index.html"><span class="mark">G</span>Gee<span>Tech</span></a><p>© 2026 GeeTech · Vejledende PC Upgrade Checker</p><div><a href="service.html">PC Service</a><a href="privatliv.html">Privatliv</a></div></footer>
+</body></html>
