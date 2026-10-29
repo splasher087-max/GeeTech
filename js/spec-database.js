@@ -111,6 +111,18 @@ window.GEETECH_DB = (() => {
   "MSI MAG Z890 TOMAHAWK WIFI|LGA1851|DDR5|ATX|msi",
   "ASUS PRIME Z890-P WIFI|LGA1851|DDR5|ATX|asus"];
  const boards=boardRows.map(str=>{const p=str.split("|");return{id:"board-"+p[0].toLowerCase().replace(/[^a-z0-9]+/g,"-"),name:p[0],socket:p[1],memory:p[2],form:p[3],source:sources[p[4]],sourceLabel:"Producentens bundkortkatalog – kontrollér model og BIOS"};});
+
+ // Explicit model-specific references override generic family catalogue links.
+ // Every other SKU remains labelled catalogue-level / indicative.
+ const exact={
+  "AMD Ryzen 5 5600X":"https://www.amd.com/en/products/processors/desktops/ryzen/5000-series/amd-ryzen-5-5600x.html",
+  "Intel Core i5-12400":"https://www.intel.com/content/www/us/en/products/sku/134586/intel-core-i512400-processor-18m-cache-up-to-4-40-ghz/specifications.html",
+  "NVIDIA GeForce RTX 3070":"https://www.nvidia.com/da-dk/geforce/graphics-cards/30-series/rtx-3070-3070ti/",
+  "AMD Radeon RX 6700 XT":"https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6700-xt.html"
+ };
+ for(const model of [...cpus,...gpus]){
+  if(exact[model.name]){model.source=exact[model.name];model.sourceLabel="Producentens model-/produktside";model.provenance="model";}
+ }
  const cases=[
   {id:"atx",name:"ATX-kabinet (formfaktor oplyst)",forms:["ATX","mATX","ITX"]},
   {id:"matx",name:"micro-ATX-kabinet",forms:["mATX","ITX"]},
