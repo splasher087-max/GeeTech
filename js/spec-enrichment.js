@@ -119,6 +119,18 @@
  const exactCompatibility=(cpu,board)=>{
   if(!cpu||!board)return {kind:"unknown"};
   if(cpu.socket!==board.socket)return {kind:"blocked",reason:"CPU og bundkort har forskellige sokler."};
+  // AMD's official AM4 chipset matrix excludes desktop Ryzen 1000/2000 from B550.
+  // X570 excludes Ryzen 1000, but includes many Ryzen 2000 models.
+  if(cpu.socket==="AM4" && cpu.name.startsWith("AMD Ryzen")){
+   const model=cpu.name.match(/Ryzen \\d (\\d{4})/);
+   const series=model?Number(model[1][0]):0;
+   if(board.chipset==="B550" && (series===1||series===2))
+    return {kind:"blocked",reason:"AMD B550 understøtter ikke Ryzen 1000/2000 desktop-serierne ifølge AMD's chipsetoversigt.",
+      source:"https://www.amd.com/en/products/processors/chipsets/am4.html"};
+   if(board.chipset==="X570" && series===1)
+    return {kind:"blocked",reason:"AMD X570 understøtter ikke Ryzen 1000 desktop-serien ifølge AMD's chipsetoversigt.",
+      source:"https://www.amd.com/en/products/processors/chipsets/am4.html"};
+  }
   if(cpu.socket==="LGA1151"&&board.chipset==="Z390"&&/Intel Core i[3579]-7\d{3}/.test(cpu.name))
    return {kind:"blocked",reason:"Intel 7. generation fungerer ikke med Intel 300-serie chipset, selvom soklen hedder LGA1151.",
      source:"https://www.intel.com/content/www/us/en/support/articles/000025694.html"};
