@@ -69,3 +69,13 @@ body{background:radial-gradient(ellipse at 85% 5%,rgba(84,77,173,.18),transparen
 .checker-sources a{color:#9fe4ff;font-size:12px;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere}
 .checker-sources a:hover{color:#d4f5ff}
 .checker-sources a:focus-visible{outline:2px solid #8beaff;outline-offset:3px}
+
+/* Consolidated build and popular-game evaluation */
+.checker-games{display:grid;gap:10px}
+.checker-games .checker-tip{border-left:3px solid #8a8de5}
+.checker-games .checker-tip p+p{margin-top:9px}
+.checker-source-note{color:#bac8e6;font-size:13px;line-height:1.6;margin:-4px 0 16px}
+.checker-results #checker-compat{margin-bottom:28px}
+.checker-results #checker-part-cards{margin-bottom:27px}
+#checker-games-section[hidden]{display:none!important}
+@media print{#checker-games-section{display:block!important}.checker-sources a{color:#172d55!important}}
