@@ -116,3 +116,18 @@ body{background:radial-gradient(ellipse at 85% 5%,rgba(84,77,173,.18),transparen
 .checker-import-status{margin:11px 0;color:#c8e8ff;font-size:12px;line-height:1.6}
 .checker-import-disclaimer{margin:12px 0 0;color:#aab5d5;font-size:11px;line-height:1.6}
 @media(max-width:620px){.checker-auto-head{display:block}.checker-auto-symbol{margin-bottom:12px}}
+
+/* Simpler first-run form: only six essential fields; optional technical details stay collapsed. */
+.checker-advanced{margin-top:19px;border:1px solid rgba(138,151,205,.42);border-radius:13px;padding:16px;background:#0b153047}
+.checker-advanced summary{cursor:pointer;color:#d5d8ff;font-weight:800;font-size:14px}
+.checker-advanced summary span{color:#aebadc;font-size:12px;font-weight:500}
+.checker-advanced>p{color:#aebadc;font-size:13px;margin:12px 0 20px}
+.checker-advanced .checker-fields{padding-top:3px}
+.checker-detected{border:1px solid #65769f;border-radius:13px;padding:17px;background:#0c1c36;margin-top:14px}
+.checker-detected h4{margin:0 0 12px;color:#f2f4ff}
+.checker-detected-list{margin:0;display:grid;gap:9px}
+.checker-detected-list>div{display:grid;grid-template-columns:100px minmax(0,1fr);gap:14px;border-bottom:1px solid #52638466;padding-bottom:8px}
+.checker-detected-list dt{font-size:12px;color:#91a4d6}
+.checker-detected-list dd{margin:0;font-size:13px;color:#fff;overflow-wrap:anywhere}
+.checker-detected>p{color:#afbddf;font-size:12px;margin:12px 0 0}
+@media(max-width:550px){.checker-detected-list>div{grid-template-columns:1fr;gap:2px}}
