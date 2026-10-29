@@ -4,7 +4,7 @@
  const db=window.GEETECH_DB;
  if(!fileInput||!message||!db)return;
  const get=id=>document.getElementById(id);
- const norm=value=>String(value||"").toLowerCase().replace(/\(r\)|\(tm\)|\bprocessor\b|\bcpu\b|\bgraphics\b|\bdisplay adapter\b/g,"").replace(/[^a-z0-9]/g,"");
+ const norm=value=>String(value||"").toLowerCase().replace(/^\s*\d+(st|nd|rd|th)\s+gen(eration)?\s+/,"").replace(/\(r\)|\(tm\)|\bprocessor\b|\bcpu\b|\bgraphics\b|\bdisplay adapter\b/g,"").replace(/[^a-z0-9]/g,"");
  const match=(items,name)=>{
   const key=norm(name);
   if(key.length<5)return null;
