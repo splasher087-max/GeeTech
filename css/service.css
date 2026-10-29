@@ -21,3 +21,34 @@
  .nav nav .account-link{padding:7px 10px}
 }
 @media(prefers-reduced-motion:reduce){.nav nav .account-link{transition:none}}
+
+/* Trust-first service layout. Keeps GeeTech's original blue/violet identity. */
+.trust-benefits{grid-template-columns:repeat(4,minmax(0,1fr))}
+.trust-benefits>div{align-items:flex-start;justify-content:center;padding:28px clamp(13px,2vw,35px);gap:12px}
+.trust-benefits span{display:grid;gap:5px;line-height:1.5}
+.trust-benefits span b{font-size:14px;color:#f1f3ff}
+.trust-benefits span small{color:#aab8d9;font-size:12px}
+.care{padding-top:60px;padding-bottom:85px}
+.care-intro{max-width:810px;margin-bottom:32px}
+.care-intro h2{font-size:clamp(34px,4vw,56px);letter-spacing:-.055em;line-height:1.15;margin:10px 0 22px}
+.care-intro>p:last-child{color:var(--mute);font-size:16px}
+.care-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.care-grid article{padding:28px;border:1px solid rgba(157,155,255,.24);border-radius:18px;background:linear-gradient(155deg,#1a2146,#10172e);box-shadow:0 12px 40px #06091a24}
+.care-grid article:before{content:"✓";display:grid;place-items:center;width:31px;height:31px;border-radius:10px;background:#8d89f52b;color:#b9b7ff;margin-bottom:18px;font-weight:900}
+.care-grid h3{font-size:19px;letter-spacing:-.025em;margin:0 0 12px}
+.care-grid p{color:#bbc6e4;font-size:14px;margin:0}
+@media(max-width:1100px){
+ .trust-benefits{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .trust-benefits>div{justify-content:flex-start;border-bottom:1px solid var(--border)}
+}
+@media(max-width:700px){
+ .care-grid{grid-template-columns:1fr}
+ .care-grid article{padding:22px}
+ .trust-benefits>div{padding:18px 14px}
+ .trust-benefits span b{font-size:13px}
+ .trust-benefits span small{font-size:11px}
+}
+@media(max-width:430px){
+ .trust-benefits{grid-template-columns:1fr}
+ .trust-benefits>div{padding:16px 20px}
+}
