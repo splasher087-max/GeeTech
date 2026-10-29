@@ -64,6 +64,8 @@ jobs:
 
       - name: Verify SPEC TJEK catalogue metadata and compatibility
         run: node tests/spec-metadata.test.cjs
+      - name: Verify interactive component filtering
+        run: node tests/spec-interactive.test.cjs
       - name: Check JavaScript syntax
         run: |
           for file in js/*.js; do node --check "$file"; done
