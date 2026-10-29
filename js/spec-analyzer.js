@@ -1,6 +1,7 @@
 "use strict";
 (() => {
  const db=window.GEETECH_DB, games=window.GEETECH_GAMES;
+ const extra=window.GEETECH_EXTRAS||{ramKits:[],drives:[],psuModels:[],caseModels:[]};
  if(!db||!games)return;
  const el=id=>document.getElementById(id);
  const form=el("pc-checker-form"),results=el("checker-output"),empty=el("checker-placeholder");
@@ -34,9 +35,9 @@
  function component(parent,kind,name,info,source,sourceLabel){
   const box=document.createElement("article");box.className="checker-part";
   text(box,"span",kind,"checker-part-label");text(box,"h4",name);text(box,"p",info);
-  const entry=[...db.cpus,...db.gpus,...db.boards,...db.psus,...db.cases].find(x=>x.name===name);
+  const entry=[...db.cpus,...db.gpus,...db.boards,...db.psus,...db.cases,...extra.ramKits,...extra.drives,...extra.psuModels,...extra.caseModels].find(x=>x.name===name);
   renderSpecs(box,entry);
-  if(source){const wrap=document.createElement("div");wrap.className="checker-sources";text(wrap,"small","Katalogreference (tjek den præcise model):");link(wrap,sourceLabel||"Producentens katalog",source);box.append(wrap);}
+  if(source){const wrap=document.createElement("div");wrap.className="checker-sources";text(wrap,"small",entry?.evidenceLabel||"Katalogreference (tjek den præcise model):");link(wrap,sourceLabel||"Producentens katalog",source);box.append(wrap);}
   parent.append(box);lines.push(kind+": "+name+" — "+info+(source?" | Katalog: "+source:""));
  }
  const unknown="Ikke oplyst. Kan ikke kontrolleres ud fra de tilgængelige data.";
@@ -45,6 +46,7 @@
   const d=Object.fromEntries(new FormData(form));
   const cpu=find(db.cpus,d.cpu),gpu=find(db.gpus,d.gpu),board=find(db.boards,d.board),psu=find(db.psus,d.psu),caseData=find(db.cases,d.case);
   const ram=d.ram?Number(d.ram):null,capacity=d.capacity?Number(d.capacity):null;
+  const ramKit=find(extra.ramKits,d.ramkit),drive=find(extra.drives,d.drive),psuModel=find(extra.psuModels,d.psumodel),caseModel=find(extra.caseModels,d.casemodel);
   const items=el("checker-part-cards"),compat=el("checker-compat"),advice=el("checker-advice"),gamePanel=el("checker-games");
   items.replaceChildren();compat.replaceChildren();advice.replaceChildren();gamePanel.replaceChildren();
   let fail=0,attention=0,confirmed=0,unknownCount=0;
@@ -81,6 +83,16 @@
   if(d.storage==="nvme"&&!board)finding("warn","NVMe kræver passende tilslutning","Kontrollér om bundkortet har M.2 NVMe-slot, eller om en særlig løsning er nødvendig. Slots kan dele PCIe-linjer.");
   finding("unknown","BIOS, strømstik, køling og mål","Disse detaljer kan ikke verificeres automatisk med denne formular. Et grønt resultat på sokkel og RAM er ikke en fuld kompatibilitetsgaranti.");
   const age=x=>x?.year?"Lanceret "+x.year+" ("+Math.max(0,new Date().getFullYear()-x.year)+" år siden lancering). ":"År ukendt. ";
+  // Exact SKU data complements generic components, without guessing extra slots,
+  // clocks, cable support or physical clearance.
+  if(ramKit)component(items,"PRÆCIST RAM-KIT",ramKit.name,ramKit.summary,ramKit.source,"Kingston-specifikationer");
+  if(drive)component(items,"PRÆCIS SSD",drive.name,drive.summary,drive.source,"Producentens SKU-specifikationer");
+  if(psuModel)component(items,"PRÆCIS STRØMFORSYNING",psuModel.name,psuModel.summary,psuModel.source,"Producentens SKU-specifikationer");
+  if(caseModel)component(items,"PRÆCIST KABINET",caseModel.name,caseModel.summary,caseModel.source,"Producentens kabinetdata");
+  if(ramKit&&board&&ramKit.type!==board.memory)finding("fail","RAM-kit og bundkort er inkompatible",ramKit.type+" kan ikke anvendes i bundkort med "+board.memory+".");
+  if(caseModel&&board&&!caseModel.forms.includes(board.form))finding("fail","Kabinet og bundkortformat passer ikke",board.form+" kan ikke antages at passe i det valgte kabinet.");
+  if(psuModel&&psu&&psuModel.watt!==psu.watt)finding("warn","PSU-model og angivet watt stemmer ikke overens","Kontrollér hvilket PSU der faktisk er installeret.");
+  if(drive&&d.storage&&drive.type!==d.storage)finding("warn","Diskmodellen og den oplyste disktype er forskellige","Kontrollér diskmodel og tilslutning før anbefaling.");
   component(items,"PROCESSOR",cpuName,cpu?age(cpu)+"Oplyst CPU-sokkel: "+cpu.socket+"; "+cpu.cores+" kerner/tråde; RAM-familie: "+cpu.memory.join(" eller ")+".":"Ingen modeldata verificeret.",cpu?.source,cpu?.sourceLabel);
   component(items,"GRAFIKKORT",gpuName,gpu?age(gpu)+"VRAM: "+gpu.vram+" GB. Offentliggjort typisk effekt varierer mellem kortdesign.":"Ingen modeldata verificeret.",gpu?.source,gpu?.sourceLabel);
   component(items,"BUNDKORT",boardName,board?"CPU-sokkel: "+board.socket+"; RAM: "+board.memory+"; format: "+board.form+". BIOS-understøttelse og M.2-specifikationer kræver producentens modelside.":"Ukendt. Kontrollér præcis model og revision.",board?.source,board?.sourceLabel);
