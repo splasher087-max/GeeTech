@@ -4,12 +4,15 @@ const fs=require("node:fs");
 const w={};
 new Function("window",fs.readFileSync("js/spec-database.js","utf8"))(w);
 new Function("window",fs.readFileSync("js/spec-enrichment.js","utf8"))(w);
+new Function("window",fs.readFileSync("js/spec-extras.js","utf8"))(w);
 const db=w.GEETECH_DB;
-const all=[...db.cpus,...db.gpus,...db.boards,...db.psus,...db.cases];
+const extras=w.GEETECH_EXTRAS;
+const all=[...db.cpus,...db.gpus,...db.boards,...db.psus,...db.cases,...extras.ramKits,...extras.drives,...extras.psuModels,...extras.caseModels];
 assert.ok(db.cpus.length>=50 && db.gpus.length>=50 && db.boards.length>=20);
 for(const item of all){
  assert.ok(item.name && item.summary && item.specs?.length>=2,"Missing specs: "+item.name);
  assert.ok(item.evidenceLabel,"Missing provenance: "+item.name);
+ if(item.source)assert.match(item.source,/^https:\/\//,"Invalid source: "+item.name);
  assert.ok(item.specs.every(([label,value])=>label&&value!==null&&value!==undefined),"Invalid specs: "+item.name);
 }
 const cpu=name=>db.cpus.find(x=>x.name===name);
