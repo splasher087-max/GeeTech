@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="css/service.css">
 <link rel="stylesheet" href="css/navigation.css?v=right-aligned-2">
 <link rel="stylesheet" href="css/upgrade-checker.css">
-<script src="js/spec-database.js" defer></script><script src="js/spec-games.js" defer></script><script src="js/spec-analyzer.js" defer></script>
+<script src="js/spec-database.js" defer></script><script src="js/spec-enrichment.js?v=2" defer></script><script src="js/spec-games.js" defer></script><script src="js/spec-analyzer.js?v=2" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Spring til indhold</a>
@@ -39,7 +39,7 @@
  <label>Hvad oplever du?<select id="issue" name="issue"><option value="none">Intet konkret problem</option><option value="slow">Langsom opstart eller programmer</option><option value="fps">Lav FPS eller hakken</option><option value="hot">Varme eller støj</option><option value="space">Mangel på plads</option><option value="crash">Nedbrud / ustabilitet</option></select></label>
  <label>Hvilket spil vil du især spille?<select id="game" name="game"><option value="all">Vis alle populære spil</option></select></label>
  </div>
- <details class="checker-extra"><summary>Kan du ikke finde din præcise model?</summary><p>Indtast modellen her. SPEC TJEK opfinder ikke tekniske data for ukendte modeller, men kan stadig bruge øvrige oplysninger.</p><div class="checker-fields"><label>Anden CPU<input id="cpu-custom" maxlength="100" placeholder="Fx Ryzen 7 5700G"></label><label>Andet grafikkort<input id="gpu-custom" maxlength="100" placeholder="Fx RTX 4070 Laptop"></label><label>Andet bundkort<input id="board-custom" maxlength="100" placeholder="Fx ASUS B550M-K"></label><label>Præcis strømforsyning / model<input id="psu-custom" maxlength="100" placeholder="Fx Corsair RM650x"></label></div></details>
+ <section class="checker-live-info" aria-labelledby="live-spec-title"><div class="checker-live-heading"><span>LIVE INFORMATION</span><h3 id="live-spec-title">Specifikationer for dine valgte dele</h3><p>Viser konkrete tekniske felter, komponentens rolle og dokumentation. Tal markeret som katalogdata kræver kontrol på præcis model.</p></div><div id="checker-live-parts" class="checker-live-parts" aria-live="polite"><p>Vælg en komponent ovenfor for at se dens detaljer.</p></div></section><details class="checker-extra"><summary>Kan du ikke finde din præcise model?</summary><p>Indtast modellen her. SPEC TJEK opfinder ikke tekniske data for ukendte modeller, men kan stadig bruge øvrige oplysninger.</p><div class="checker-fields"><label>Anden CPU<input id="cpu-custom" maxlength="100" placeholder="Fx Ryzen 7 5700G"></label><label>Andet grafikkort<input id="gpu-custom" maxlength="100" placeholder="Fx RTX 4070 Laptop"></label><label>Andet bundkort<input id="board-custom" maxlength="100" placeholder="Fx ASUS B550M-K"></label><label>Præcis strømforsyning / model<input id="psu-custom" maxlength="100" placeholder="Fx Corsair RM650x"></label></div></details>
  <div class="checker-actions"><button class="checker-primary" type="submit">Tjek hele mit build ↗</button><button class="checker-secondary" type="reset">Nulstil</button></div>
  </form>
 </section>
