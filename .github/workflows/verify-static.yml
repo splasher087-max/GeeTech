@@ -62,16 +62,17 @@ jobs:
           sys.exit(bool(errors))
           PY
 
-      - name: Verify SPEC TJEK catalogue metadata and compatibility\n        run: node tests/spec-metadata.test.cjs\n      - name: Check JavaScript syntax
+      - name: Verify SPEC TJEK catalogue metadata and compatibility
+        run: node tests/spec-metadata.test.cjs\n      - name: Check JavaScript syntax
         run: |
           for file in js/*.js; do node --check "$file"; done
       - name: Check SPEC TJEK source links
         run: |
           python3 - <<'PY'
           import pathlib, re, sys
-          js = pathlib.Path("js/upgrade-checker.js").read_text(encoding="utf-8")
+          js = pathlib.Path("js/spec-database.js").read_text(encoding="utf-8")
           urls = re.findall(r'https://(?:www\.)?(?:amd\.com|intel\.com|nvidia\.com)/[^"\s]+',js)
-          ok = len(urls) >= 5 and 'VERIFIED_SOURCES' in js
+          ok = len(urls) >= 5 and 'const exact=' in js
           print("Verified manufacturer source references:",len(urls))
           if not ok: sys.exit("Missing documented manufacturer references")
           PY
