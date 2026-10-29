@@ -62,3 +62,10 @@ body{background:radial-gradient(ellipse at 85% 5%,rgba(84,77,173,.18),transparen
 @media(max-width:600px){.checker-hero{padding-top:50px}.checker-fields,.checker-part-cards{grid-template-columns:1fr}.checker-shell{width:94%}.checker-panel{padding:20px}.checker-explain{width:94%}}
 @media(prefers-reduced-motion:reduce){.checker-primary,.checker-secondary{transition:none}}
 @media print{.nav,.checker-panel form,.checker-placeholder,.checker-explain,.checker-export,footer,.checker-hero .checker-promises{display:none!important}body{background:white!important;color:black!important}.checker-shell{display:block;width:100%}.checker-panel{box-shadow:none;border:0;background:white;color:black}.checker-results{display:block}.checker-part,.checker-tip,.checker-status{background:white!important;color:black!important;break-inside:avoid}.checker-part *, .checker-tip *, .checker-status *{color:black!important}}
+
+/* Source transparency and verified manufacturer references */
+.checker-sources{display:grid;gap:7px;margin-top:14px;padding-top:12px;border-top:1px solid #56658e88}
+.checker-sources strong{font-size:11px;color:#c3d4f6}
+.checker-sources a{color:#9fe4ff;font-size:12px;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere}
+.checker-sources a:hover{color:#d4f5ff}
+.checker-sources a:focus-visible{outline:2px solid #8beaff;outline-offset:3px}
