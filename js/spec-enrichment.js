@@ -69,6 +69,14 @@
    cpu.source=cpu.name.startsWith("AMD")?sourcePages.amdSpec:sourcePages.intelSpec;
    cpu.sourceLabel=evidenceLabel("catalogue");
   }
+  if(cpu.name==="Intel Core i5-12500"){
+   cpu.specs.push(["Maksimal turbo-frekvens","4,60 GHz"]);
+   cpu.specs.push(["L3-cache","18 MB Intel Smart Cache"]);
+   cpu.specs.push(["Maksimal turboeffekt","117 W"]);
+   cpu.specs.push(["Integreret grafik","Intel UHD Graphics 770"]);
+   cpu.specs.push(["Hukommelseshastigheder","DDR4-3200 / DDR5-4800 MT/s (officielt)"]);
+   cpu.summary+=" Intel ARK oplyser 4,60 GHz max turbo, 18 MB cache og UHD Graphics 770.";
+  }
   cpu.evidenceLabel=evidenceLabel(cpu.provenance);
   cpu.use="En CPU udfører programkode og styrer spillets logik, beregninger og baggrundsprocesser. Opgraderingsværdien afhænger af konkret belastning, ikke kun antal kerner.";
  }
