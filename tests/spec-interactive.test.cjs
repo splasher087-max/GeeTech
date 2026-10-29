@@ -3,6 +3,7 @@ const assert=require("node:assert/strict"),fs=require("node:fs");
 const window={};
 new Function("window",fs.readFileSync("js/spec-database.js","utf8"))(window);
 new Function("window",fs.readFileSync("js/spec-enrichment.js","utf8"))(window);
+new Function("window",fs.readFileSync("js/spec-extras.js","utf8"))(window);
 class Element{
  constructor(tag="div"){this.tagName=tag;this.children=[];this.options=[];this.value="";this.attributes={};this.listeners={};this.textContent="";}
  append(...children){this.children.push(...children);if(this.tagName==="select")this.options.push(...children);}
@@ -31,12 +32,16 @@ const option=(id,value)=>get(id).options.find(x=>x.value===value);
 choose("board",board("MSI MAG B650 TOMAHAWK WIFI"));
 assert.equal(get("socket").value,"AM5");
 assert.equal(get("ramtype").value,"DDR5");
+assert.equal(option("ramkit","ram-kf432beast32").disabled,true);
+assert.equal(option("ramkit","ram-kf560beast32").disabled,false);
 assert.equal(option("ramtype","DDR4").disabled,true);
 assert.equal(option("cpu",cpu("AMD Ryzen 5 5600X")).disabled,true);
 choose("board","");
 choose("cpu",cpu("AMD Ryzen 5 5600X"));
 assert.equal(get("socket").value,"AM4");
 assert.equal(get("ramtype").value,"DDR4");
+assert.equal(option("ramkit","ram-kf432beast32").disabled,false);
+assert.equal(option("ramkit","ram-kf560beast32").disabled,true);
 assert.equal(option("board",board("MSI MAG B650 TOMAHAWK WIFI")).disabled,true);
 choose("cpu","");
 choose("board",board("ASUS PRIME Z390-A"));
