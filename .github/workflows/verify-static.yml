@@ -34,3 +34,30 @@ jobs:
           print(f"Checked {len(pages)} HTML files; {len(errors)} missing local references")
           sys.exit(bool(errors))
           PY
+      - name: Check consistent navigation on all pages
+        run: |
+          python3 - <<'PY'
+          import pathlib, re, sys
+          expected = ["index.html", "service.html", "shop.html", "sell.html", "account.html"]
+          errors = []
+          pages = list(pathlib.Path(".").glob("*.html"))
+          for page in pages:
+              html = page.read_text(encoding="utf-8")
+              headers = re.findall(r'<header\\b[^>]*class="[^"]*site-header[^"]*"[^>]*>[\\s\\S]*?</header>', html)
+              if len(headers) != 1:
+                  errors.append(f"{page}: expected exactly one shared header")
+                  continue
+              if 'css/navigation.css' not in html:
+                  errors.append(f"{page}: missing shared navigation stylesheet")
+              menus = re.findall(r'<nav\\b[^>]*class="[^"]*site-main-nav[^"]*"[^>]*>([\\s\\S]*?)</nav>', headers[0])
+              if len(menus) != 1:
+                  errors.append(f"{page}: missing shared main navigation")
+                  continue
+              urls = re.findall(r'<a\\b[^>]*href="([^"]+)"', menus[0])
+              if urls != expected:
+                  errors.append(f"{page}: unexpected menu order {urls}")
+          for issue in errors:
+              print("ERROR:", issue)
+          print(f"Checked shared navigation on {len(pages)} pages; {len(errors)} errors")
+          sys.exit(bool(errors))
+          PY
