@@ -5,24 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex,nofollow">
   <meta name="theme-color" content="#0b0e13">
-  <title>NEXORA Inventory | Intern demo</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+  <title>GeeTech Inventory | Intern demo</title>
+  <link rel="stylesheet" href="css/site.css">
+  <script src="js/site.js" defer></script>
 </head>
 <body data-page="inventory">
   <a class="skip-link" href="#main-content">Spring til indhold</a>
   <header class="navbar admin-nav">
-    <a href="inventory.html" class="logo" aria-label="NEXORA Inventory">NEXORA<span>.</span> <small>INVENTORY</small></a>
+    <a href="inventory.html" class="logo" aria-label="GeeTech Inventory">GeeTech<span>.</span> <small>INVENTORY</small></a>
     <nav class="nav-links" aria-label="Intern navigation">
       <a href="inventory.html" class="active" aria-current="page">Lager</a>
-      <a href="index.html">Se webshop</a>
+      <a href="shop.html">Se webshop</a>
     </nav>
     <span class="admin-badge">INTERN DEMO</span>
   </header>
 
   <main id="main-content" class="inventory-shell">
     <section class="inventory-hero">
-      <div><p class="eyebrow">NEXORA · MASKINRUM</p><h1>Inventory</h1><p>Følg varer fra indkøb og test til lager, webshop og salg. Data gemmes kun lokalt i denne browser i demoen.</p></div>
+      <div><p class="eyebrow">GeeTech · MASKINRUM</p><h1>Inventory</h1><p>Følg varer fra indkøb og test til lager, webshop og salg. Data gemmes kun lokalt i denne browser i demoen.</p></div>
       <button class="button primary" id="inventory-new" type="button">+ Registrer vare</button>
     </section>
 
@@ -32,9 +32,9 @@
       <article><span>Bundet kapital</span><strong id="inv-stat-cost">0 kr.</strong></article>
       <article><span>Forventet DB*</span><strong id="inv-stat-margin">0 kr.</strong></article>
     </section>
-    <p class="inventory-footnote">* Demoestimat baseret på vores nuværende arbejdsmode for brugtmoms. Ikke bogføring eller endelig momsafregning.</p>
+    <p class="inventory-footnote">* Ikke verbindliche Schätzung. Keine Buchhaltung oder Steuerberechnung; Steuermodell vor Firmengründung fachlich prüfen.</p>
 
-    <section class="inventory-panel">
+    <section class="inventory-panel"><div class="inventory-toolbar"><div><h2>Datensicherung & Export</h2><p>Nur lokal auf diesem Gerät · keine Synchronisierung mit dem Demo-Webshop</p></div><div class="inventory-controls"><button class="button secondary" id="inventory-export" type="button">JSON exportieren</button><button class="button secondary" id="inventory-export-csv" type="button">CSV exportieren</button><button class="button secondary" id="inventory-import" type="button">JSON importieren</button><input type="file" id="inventory-import-file" accept=".json,application/json" hidden></div></div></section><section class="inventory-panel">
       <div class="inventory-toolbar">
         <div><h2>Varer</h2><p><span id="inventory-count">0</span> registreret</p></div>
         <div class="inventory-controls">
