@@ -61,3 +61,29 @@ body[data-page="account"] input:focus-visible{
  body[data-page="account"] .account-tab:hover{transform:none}
 }
 @media(prefers-reduced-motion:reduce){body[data-page="account"] .account-tab{transition:none}}
+
+/* Strongly isolate the entire account page from the storefront's old green rules. */
+body[data-page="account"]{
+ --bg:#12101c;--surface:#201b30;--surface-2:#272139;--surface-3:#302743;
+ --text:#f7f3ff;--muted:#b6abc9;--border:#423751;--accent:#c9a5ff;
+ color-scheme:dark;
+}
+body[data-page="account"] .navbar .nav-links a[href="account.html"]{
+ color:#f7eaff;background:#50376e;border-color:#aa82d8;
+}
+body[data-page="account"] .navbar .nav-links a[href="account.html"].active::after{background:#d0a8ff}
+body[data-page="account"] .account-form .field input:focus,
+body[data-page="account"] .account-form .field textarea:focus,
+body[data-page="account"] .account-form .field select:focus{
+ border-color:#c9a5ff;box-shadow:0 0 0 3px rgba(192,145,255,.16);
+}
+body[data-page="account"] .account-form .field input::placeholder{color:#8e7fa5}
+body[data-page="account"] .order-status{color:#c9a5ff}
+body[data-page="account"] .demo-order{border-color:#534365;background:#1c1729}
+body[data-page="account"] .demo-order span,
+body[data-page="account"] .security-card p{color:#bcb1ce}
+body[data-page="account"] .security-card{border-color:#514064;background:#1b1629}
+body[data-page="account"] .account-content .button.secondary{border-color:#665177}
+body[data-page="account"] .account-content .button.secondary:hover{border-color:#b993e7}
+body[data-page="account"] .site-footer .logo span{color:#d7b6ff}
+body[data-page="account"] .skip-link{background:#c9a5ff;color:#20142b}
