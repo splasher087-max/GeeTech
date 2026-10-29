@@ -70,7 +70,7 @@ jobs:
           python3 - <<'PY'
           import pathlib, re, sys
           js = pathlib.Path("js/upgrade-checker.js").read_text(encoding="utf-8")
-          urls = re.findall(r'https://(?:www\\.)?(?:amd\\.com|intel\\.com|nvidia\\.com)/[^"\\s]+',js)
+          urls = re.findall(r'https://(?:www\.)?(?:amd\.com|intel\.com|nvidia\.com)/[^"\s]+',js)
           ok = len(urls) >= 5 and 'VERIFIED_SOURCES' in js
           print("Verified manufacturer source references:",len(urls))
           if not ok: sys.exit("Missing documented manufacturer references")
