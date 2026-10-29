@@ -6,6 +6,7 @@
  if(!db)return;
  const $=id=>document.getElementById(id);
  const by=(arr,id)=>arr.find(x=>x.id===id)||null;
+ const compatible=(cpu,board)=>window.GEETECH_SPEC_META?.exactCompatibility?.(cpu,board)?.kind!=="blocked";
  const ids=["cpu","board","ramtype","socket","case","gpu","psu"];
  const notice=document.createElement("p");notice.id="checker-live-feedback";notice.className="checker-filter-feedback";notice.setAttribute("role","status");
  const fields=$("pc-checker-form").querySelector(".checker-fields");fields.after(notice);
@@ -35,11 +36,11 @@
   // When CPU is selected, that CPU dictates socket. A board can restrict CPU too.
   for(const opt of $("cpu").options){
    const item=by(db.cpus,opt.value);
-   opt.disabled=!!(item && ((board&&item.socket!==board.socket)||(!board&&$("socket").value&&item.socket!==$("socket").value)));
+   opt.disabled=!!(item && ((board&&!compatible(item,board))||(!board&&$("socket").value&&item.socket!==$("socket").value)));
   }
   for(const opt of $("board").options){
    const item=by(db.boards,opt.value);
-   opt.disabled=!!(item&&((cpu&&item.socket!==cpu.socket)||(!cpu&&$("socket").value&&item.socket!==$("socket").value)||
+   opt.disabled=!!(item&&((cpu&&!compatible(cpu,item))||(!cpu&&$("socket").value&&item.socket!==$("socket").value)||
      ($("ramtype").value&&item.memory!==$("ramtype").value)||(c?.forms&&!c.forms.includes(item.form))));
   }
   for(const opt of $("ramtype").options){
