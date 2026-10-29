@@ -11,6 +11,7 @@
  const notice=document.createElement("p");notice.id="checker-live-feedback";notice.className="checker-filter-feedback";notice.setAttribute("role","status");
  const fields=$("pc-checker-form").querySelector(".checker-fields");fields.after(notice);
  const specs=$("checker-live-parts");
+ let autoSocket="",autoRamType="";
  function card(item){
   const box=document.createElement("article");box.className="checker-live-card";
   const h=document.createElement("h4");h.textContent=item.name;box.append(h);
@@ -32,6 +33,11 @@
  }
  function refresh(){
   const cpu=by(db.cpus,$("cpu").value),board=by(db.boards,$("board").value),c=by(db.cases,$("case").value);
+  if(!cpu&&!board){
+   if(autoSocket&&$("socket").value===autoSocket)$("socket").value="";
+   if(autoRamType&&$("ramtype").value===autoRamType)$("ramtype").value="";
+   autoSocket="";autoRamType="";
+  }
   let socket=cpu?.socket||board?.socket||$("socket").value||"";
   // When CPU is selected, that CPU dictates socket. A board can restrict CPU too.
   for(const opt of $("cpu").options){
@@ -64,10 +70,10 @@
   }
   const actualCpu=by(db.cpus,$("cpu").value),actualBoard=by(db.boards,$("board").value);
   const enforcedSocket=actualCpu?.socket||actualBoard?.socket||"";
-  if(enforcedSocket){$("socket").value=enforcedSocket;$("socket").setAttribute("aria-description","Automatisk valgt ud fra CPU eller bundkort");}
+  if(enforcedSocket){$("socket").value=enforcedSocket;autoSocket=enforcedSocket;$("socket").setAttribute("aria-description","Automatisk valgt ud fra CPU eller bundkort");}
   else $("socket").removeAttribute("aria-description");
   const ramChoices=actualBoard?[actualBoard.memory]:(actualCpu?.memory||[]);
-  if(ramChoices.length===1){$("ramtype").value=ramChoices[0];}
+  if(ramChoices.length===1){$("ramtype").value=ramChoices[0];autoRamType=ramChoices[0];}
   notice.textContent=messages.length?messages.join(" "):enforcedSocket?
    "Sokkel: "+enforcedSocket+". "+(ramChoices.length?"Mulig RAM-type: "+ramChoices.join(" / ")+". ":"")+"Inkompatible valg er deaktiveret. BIOS, RAM-kapacitet, kabinettets mål og strømstik kræver stadig kontrol.":
    "Vælg CPU eller bundkort for automatisk at begrænse de kompatible sokler og RAM-typer.";
