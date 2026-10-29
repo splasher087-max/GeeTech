@@ -18,3 +18,13 @@ Thumbs.db
 !.env.example
 *.pem
 *.key
+
+# Visual Studio workspace and local indexing data
+*.wsuo
+*.vsidx
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+DocumentLayout.json
+VSWorkspaceState.json
+.vs/
