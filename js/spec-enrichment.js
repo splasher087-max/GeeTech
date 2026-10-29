@@ -119,7 +119,7 @@
  const exactCompatibility=(cpu,board)=>{
   if(!cpu||!board)return {kind:"unknown"};
   if(cpu.socket!==board.socket)return {kind:"blocked",reason:"CPU og bundkort har forskellige sokler."};
-  if(cpu.socket==="LGA1151"&&board.chipset==="Z390"&&/Intel Core i[3579]-7\\d{3}/.test(cpu.name))
+  if(cpu.socket==="LGA1151"&&board.chipset==="Z390"&&/Intel Core i[3579]-7\d{3}/.test(cpu.name))
    return {kind:"blocked",reason:"Intel 7. generation fungerer ikke med Intel 300-serie chipset, selvom soklen hedder LGA1151.",
      source:"https://www.intel.com/content/www/us/en/support/articles/000025694.html"};
   return {kind:"socket",reason:"Soklen matcher, men BIOS-version og præcis CPU-support er ikke verificeret."};
