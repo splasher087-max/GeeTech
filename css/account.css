@@ -1,0 +1,63 @@
+/* GeeTech account: a third, independent violet identity.
+   Site-wide shop styles load first; overrides are scoped to account only. */
+body[data-page="account"]{
+ --bg:#12101c;--surface:#201b30;--surface-2:#272139;--surface-3:#302743;
+ --text:#f7f3ff;--muted:#b6abc9;--border:#423751;
+ --accent:#c9a5ff;--accent-soft:rgba(201,165,255,.12);
+ --shadow:0 18px 50px rgba(8,5,17,.25);
+ color:var(--text);
+ background:radial-gradient(ellipse at 79% 2%,rgba(126,85,198,.18),transparent 42%),
+ radial-gradient(ellipse at 5% 44%,rgba(87,58,140,.12),transparent 48%),#12101c;
+}
+body[data-page="account"] .navbar{
+ background:rgba(21,16,34,.94);border-bottom-color:#514061;box-shadow:0 10px 30px #0d071522;
+}
+body[data-page="account"] .logo span{color:#d7b6ff}
+body[data-page="account"] .nav-links a:hover{color:#eee0ff}
+body[data-page="account"] .nav-links a.active::after{background:#b993f0}
+.account-brand-tag{display:inline-block;margin-left:8px;font-size:10px;font-weight:750;letter-spacing:.13em;color:#ac97c7;vertical-align:middle}
+body[data-page="account"] .account-page{padding-top:clamp(45px,7vw,90px)}
+body[data-page="account"] .account-hero{max-width:850px;padding:0 0 24px;position:relative}
+body[data-page="account"] .account-hero::before{
+ content:"";display:block;width:76px;height:4px;margin-bottom:25px;border-radius:6px;
+ background:linear-gradient(90deg,#c9a5ff,#8264d9)
+}
+body[data-page="account"] .account-hero h1{font-size:clamp(3rem,6vw,5rem);letter-spacing:-.055em;line-height:1.1}
+.account-heading-dot{color:#b998ee}
+body[data-page="account"] .account-hero>p:last-child{color:#bcb2cf;max-width:660px}
+body[data-page="account"] .eyebrow{color:#c9a5ff}
+body[data-page="account"] .account-demo-warning{
+ background:rgba(159,116,224,.09);border-color:rgba(201,165,255,.24);color:#c6bdd5;
+}
+body[data-page="account"] .account-layout{gap:28px}
+body[data-page="account"] .account-menu{gap:10px}
+body[data-page="account"] .account-tab{background:#211b30;border-color:#463950;color:#d1c5e3;transition:background .2s,border-color .2s,transform .2s}
+body[data-page="account"] .account-tab:hover{background:#302541;border-color:#8865ac;transform:translateX(3px)}
+body[data-page="account"] .account-tab.active{background:linear-gradient(100deg,#543b74,#3c3059);border-color:#ac8cda;color:#fff}
+body[data-page="account"] .account-content{background:linear-gradient(140deg,#272039,#1d192a);border:1px solid #4e3d62;box-shadow:0 22px 60px #08051233}
+body[data-page="account"] .account-content h2{color:#f4ebff}
+body[data-page="account"] .account-note{color:#b4a8c8}
+body[data-page="account"] .field input,body[data-page="account"] .field textarea,body[data-page="account"] .field select{
+ background:#181423;color:#f7f3ff;border-color:#4a3a5e;
+}
+body[data-page="account"] .field input:focus,body[data-page="account"] .field textarea:focus{
+ border-color:#c5a3f0;outline:2px solid #a885d84d;
+}
+body[data-page="account"] .button.primary{
+ background:linear-gradient(110deg,#cda8ff,#ad86e4);color:#21142f;box-shadow:0 8px 25px #8d5bd126;
+}
+body[data-page="account"] .button.primary:hover{background:linear-gradient(110deg,#dfc3ff,#c39ff2)}
+body[data-page="account"] .button.secondary:hover{border-color:#aa83cc;background:#ffffff0a}
+body[data-page="account"] .site-footer{background:#161020;border-top-color:#493552}
+body[data-page="account"] a:focus-visible,body[data-page="account"] button:focus-visible,
+body[data-page="account"] input:focus-visible{
+ outline:3px solid #c9a5ff!important;outline-offset:3px;
+}
+@media(max-width:650px){
+ .account-brand-tag{display:none}
+ body[data-page="account"] .account-layout{grid-template-columns:1fr}
+ body[data-page="account"] .account-menu{display:flex;overflow-x:auto;position:static}
+ body[data-page="account"] .account-tab{white-space:nowrap;flex:1 0 auto}
+ body[data-page="account"] .account-tab:hover{transform:none}
+}
+@media(prefers-reduced-motion:reduce){body[data-page="account"] .account-tab{transition:none}}
