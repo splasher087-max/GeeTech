@@ -39,99 +39,127 @@
   return box;
  }
  function refresh(){
-  const cpu=by(db.cpus,$("cpu").value),board=by(db.boards,$("board").value),c=by(db.cases,$("case").value);
-  const kit=by(extra.ramKits,$("ramkit").value),drive=by(extra.drives,$("drive").value);
-  const specificPsu=by(extra.psuModels,$("psumodel").value),specificCase=by(extra.caseModels,$("casemodel").value);
-  if(kit){$("ram").value=String(kit.gb);$("ramtype").value=kit.type;}
+  const messages=[];
+  const selected=id=>$(id).value;
+  const cpu0=by(db.cpus,selected("cpu")),board0=by(db.boards,selected("board"));
+  const psu=by(extra.psuModels,selected("psumodel"));
+  const drive=by(extra.drives,selected("drive"));
+  const kit0=by(extra.ramKits,selected("ramkit"));
+  const case0=by(extra.caseModels,selected("casemodel"));
+  // Specific model selections are authoritative for their generic attributes.
+  if(psu)$("psu").value=String(psu.watt);
   if(drive){$("storage").value=drive.type;$("capacity").value=String(drive.gb);}
-  if(specificPsu)$("psu").value=String(specificPsu.watt);
-  if(specificCase)$("case").value=specificCase.form.toLowerCase();
-
-  if(!cpu&&!board){
-   if(autoSocket&&$("socket").value===autoSocket)$("socket").value="";
-   if(autoRamType&&$("ramtype").value===autoRamType)$("ramtype").value="";
-   autoSocket="";autoRamType="";
+  if(kit0){$("ram").value=String(kit0.gb);$("ramtype").value=kit0.type;}
+  if(case0)$("case").value=case0.form.toLowerCase();
+  // Primary selectors define the platform; an incompatible selection is removed.
+  const board=by(db.boards,selected("board")),cpu=by(db.cpus,selected("cpu"));
+  if(cpu&&board&&!compatible(cpu,board)){
+   // Preserve the already selected motherboard and remove CPU to avoid impossible builds.
+   $("cpu").value="";messages.push("CPU'en blev fjernet: den understøttes ikke af det valgte bundkort.");
   }
-  let socket=cpu?.socket||board?.socket||$("socket").value||"";
-  // When CPU is selected, that CPU dictates socket. A board can restrict CPU too.
+  const activeCpu=by(db.cpus,selected("cpu"));
+  const activeBoard=by(db.boards,selected("board"));
+  const socket=activeBoard?.socket||activeCpu?.socket||"";
+  if(socket){$("socket").value=socket;autoSocket=socket;}
+  else if(autoSocket&&selected("socket")===autoSocket){$("socket").value="";autoSocket="";}
+  // A board has exactly one DDR generation. CPU-only supports one or both.
+  const allowedRam=activeBoard?[activeBoard.memory]:(activeCpu?.memory||[]);
+  if(allowedRam.length===1){$("ramtype").value=allowedRam[0];autoRamType=allowedRam[0];}
+  else if(allowedRam.length>0&&!allowedRam.includes(selected("ramtype"))){$("ramtype").value="";autoRamType="";}
+  else if(!allowedRam.length&&autoRamType&&selected("ramtype")===autoRamType){$("ramtype").value="";autoRamType="";}
+  const kit=by(extra.ramKits,selected("ramkit"));
+  if(kit&&allowedRam.length&&!allowedRam.includes(kit.type)){
+    $("ramkit").value="";messages.push("RAM-kittet blev fjernet: det bruger forkert DDR-generation.");
+  }
+  if(kit&&selected("ramkit")){
+    $("ram").value=String(kit.gb);$("ramtype").value=kit.type;
+  }
+  const actualCase=by(db.cases,selected("case"));
+  const actualCaseModel=by(extra.caseModels,selected("casemodel"));
+  if(activeBoard&&actualCase?.forms&&!actualCase.forms.includes(activeBoard.form)){
+    $("case").value="";messages.push("Kabinetklassen blev fjernet: bundkortformatet passer ikke.");
+  }
+  if(activeBoard&&actualCaseModel&&!actualCaseModel.forms.includes(activeBoard.form)){
+    $("casemodel").value="";messages.push("Kabinetmodellen blev fjernet: bundkortformatet passer ikke.");
+  }
+  const constrainedSocket=activeBoard?.socket||activeCpu?.socket||"";
+  const constrainedRam=activeBoard?[activeBoard.memory]:(activeCpu?.memory||[]);
   for(const opt of $("cpu").options){
    const item=by(db.cpus,opt.value);
-   opt.disabled=!!(item && ((board&&!compatible(item,board))||(!board&&$("socket").value&&item.socket!==$("socket").value)));
+   opt.disabled=!!(item&&(
+     (activeBoard&&!compatible(item,activeBoard))||
+     (!activeBoard&&selected("socket")&&item.socket!==selected("socket"))||
+     (!activeBoard&&!selected("socket")&&selected("ramtype")&&!item.memory.includes(selected("ramtype")))
+   ));
   }
   for(const opt of $("board").options){
    const item=by(db.boards,opt.value);
-   opt.disabled=!!(item&&((cpu&&!compatible(cpu,item))||(!cpu&&$("socket").value&&item.socket!==$("socket").value)||
-     ($("ramtype").value&&item.memory!==$("ramtype").value)||(c?.forms&&!c.forms.includes(item.form))||(specificCase&&!specificCase.forms.includes(item.form))));
+   const size=by(db.cases,selected("case")),specific=by(extra.caseModels,selected("casemodel"));
+   opt.disabled=!!(item&&(
+    (activeCpu&&!compatible(activeCpu,item))||
+    (!activeCpu&&selected("socket")&&item.socket!==selected("socket"))||
+    (selected("ramtype")&&item.memory!==selected("ramtype"))||
+    (size?.forms&&!size.forms.includes(item.form))||
+    (specific&&!specific.forms.includes(item.form))
+   ));
   }
-  for(const opt of $("ramtype").options){
-   if(!opt.value)continue;
-   opt.disabled=!!(board&&board.memory!==opt.value)||
-     !!(cpu&&!cpu.memory.includes(opt.value))||!!(kit&&kit.type!==opt.value);
-  }
-  for(const opt of $("socket").options){
-   if(!opt.value)continue;
-   opt.disabled=!!socket&&opt.value!==socket;
+  for(const opt of $("ramtype").options){if(opt.value)opt.disabled=!!(constrainedRam.length&&!constrainedRam.includes(opt.value));}
+  for(const opt of $("socket").options){if(opt.value)opt.disabled=!!(constrainedSocket&&opt.value!==constrainedSocket);}
+  for(const opt of $("ramkit").options){
+    const item=by(extra.ramKits,opt.value);
+    opt.disabled=!!(item&&constrainedRam.length&&!constrainedRam.includes(item.type));
   }
   for(const opt of $("case").options){
-   const item=by(db.cases,opt.value);
-   opt.disabled=!!(board&&item?.forms&&!item.forms.includes(board.form));
-  }
-  for(const opt of $("ramkit").options){
-   const item=by(extra.ramKits,opt.value);
-   opt.disabled=!!(item&&((board&&item.type!==board.memory)||(cpu&&!cpu.memory.includes(item.type))||
-     (!board&&!cpu&&$("ramtype").value&&item.type!==$("ramtype").value)));
+    const item=by(db.cases,opt.value);
+    opt.disabled=!!(item&&activeBoard&&item.forms&&!item.forms.includes(activeBoard.form));
   }
   for(const opt of $("casemodel").options){
-   const item=by(extra.caseModels,opt.value);
-   opt.disabled=!!(item&&board&&!item.forms.includes(board.form));
+    const item=by(extra.caseModels,opt.value);
+    opt.disabled=!!(item&&activeBoard&&!item.forms.includes(activeBoard.form));
   }
-  const messages=[];
-  // Clear stale selections rather than allowing known-incompatible builds.
-  for(const id of ["cpu","board","ramtype","socket","case","ramkit","casemodel"]){
-   const select=$(id),chosen=select.selectedOptions[0];
-   if(chosen?.disabled){const old=chosen.textContent;select.value="";messages.push("Fjernet et inkompatibelt valg i "+id+": "+old);}
+  // Reset selects that have become impossible, even after a manual or scripted edit.
+  for(const id of ["cpu","board","ramtype","socket","ramkit","case","casemodel"]){
+   const drop=$(id),chosen=drop.selectedOptions?.[0];
+   if(chosen?.disabled){
+    messages.push("Inkompatibelt valg nulstillet: "+chosen.textContent);
+    drop.value="";
+   }
   }
-  const actualCpu=by(db.cpus,$("cpu").value),actualBoard=by(db.boards,$("board").value);
-  const actualKit=by(extra.ramKits,$("ramkit").value);
-  const enforcedSocket=actualCpu?.socket||actualBoard?.socket||"";
-  if(enforcedSocket){$("socket").value=enforcedSocket;autoSocket=enforcedSocket;$("socket").setAttribute("aria-description","Automatisk valgt ud fra CPU eller bundkort");}
-  else $("socket").removeAttribute("aria-description");
-  const ramChoices=actualBoard?[actualBoard.memory]:(actualCpu?.memory||[]);
-  if(ramChoices.length===1){$("ramtype").value=ramChoices[0];autoRamType=ramChoices[0];}
-  if(actualKit){$("ram").value=String(actualKit.gb);$("ramtype").value=actualKit.type;}
-  notice.textContent=messages.length?messages.join(" "):enforcedSocket?
-   "Sokkel: "+enforcedSocket+". "+(ramChoices.length?"Mulig RAM-type: "+ramChoices.join(" / ")+". ":"")+"Inkompatible valg er deaktiveret. BIOS, RAM-kapacitet, kabinettets mål og strømstik kræver stadig kontrol.":
-   "Vælg CPU eller bundkort for automatisk at begrænse de kompatible sokler og RAM-typer.";
+  const effectiveBoard=by(db.boards,selected("board"));
+  const effectiveCpu=by(db.cpus,selected("cpu"));
+  const effectiveSocket=effectiveBoard?.socket||effectiveCpu?.socket||"";
+  if(effectiveSocket){$("socket").value=effectiveSocket;autoSocket=effectiveSocket;}
+  const finalRam=effectiveBoard?[effectiveBoard.memory]:(effectiveCpu?.memory||[]);
+  if(finalRam.length===1){$("ramtype").value=finalRam[0];autoRamType=finalRam[0];}
+  notice.textContent=messages.length?messages.join(" "):
+   effectiveSocket?"Sokkel: "+effectiveSocket+". "+
+   (finalRam.length?"Mulig RAM: "+finalRam.join(" / ")+". ":"")+
+   "Inkompatible valgmuligheder er deaktiveret. BIOS, strømstik og plads i kabinettet skal stadig kontrolleres.":
+   "Vælg CPU eller bundkort: SPEC TJEK begrænser automatisk sokkel og DDR-generation.";
+  // Keep live model specs visible for every chosen part.
   specs.replaceChildren();
-  const selected=[
-   by(db.cpus,$("cpu").value),by(db.boards,$("board").value),
-   by(db.gpus,$("gpu").value),by(db.psus,$("psu").value),by(db.cases,$("case").value)
+  const selectedParts=[
+    by(db.cpus,selected("cpu")),by(db.boards,selected("board")),
+    by(db.gpus,selected("gpu")),by(db.psus,selected("psu")),by(db.cases,selected("case")),
+    by(extra.ramKits,selected("ramkit")),by(extra.drives,selected("drive")),
+    by(extra.psuModels,selected("psumodel")),by(extra.caseModels,selected("casemodel"))
   ].filter(Boolean);
-  for(const item of [by(extra.ramKits,$("ramkit").value),by(extra.drives,$("drive").value),by(extra.psuModels,$("psumodel").value),by(extra.caseModels,$("casemodel").value)])if(item)selected.push(item);
-  if($("ram").value||$("ramtype").value){
-   const qty=$("ram").value||"ukendt";
-   const type=$("ramtype").value||"ukendt";
-   selected.push({
-    name:"RAM: "+qty+" GB / "+type,summary:"Systemhukommelse lagrer aktive programdata. Mængde, antal moduler, hastighed og bundkortets RAM-understøttelse påvirker ydelsen.",
-    specs:[["Mængde",qty+" GB"],["Generation",type],["Hastighed og moduler","Ukendt – vælg konkret RAM-kit for kontrol"]],
-    use:"DDR4 og DDR5 bruger forskellige slots. Mere RAM hjælper mest, når den eksisterende mængde er tæt på fuld udnyttelse.",
-    evidenceLabel:"Brugerens RAM-mængde/-kategori – ikke en registreret produktmodel"
-   });
+  if(selected("ram")||selected("ramtype")){
+   const qty=selected("ram")||"ukendt",type=selected("ramtype")||"ukendt";
+   selectedParts.push({name:"RAM: "+qty+" GB / "+type,
+     summary:"RAM bruges af aktive programmer. Mængde og hastighed påvirker multitasking.",
+     specs:[["Mængde",qty+" GB"],["RAM-generation",type],["Moduler og hastighed","Vælg konkret RAM-kit for flere oplysninger"]],
+     evidenceLabel:"Generisk RAM-type – ikke en produktmodel"});
   }
-  if($("storage").value||$("capacity").value){
-   const type={hdd:"HDD",sata:"SATA SSD",nvme:"NVMe SSD"}[$("storage").value]||"Ukendt disk";
-   const size=$("capacity").value?$("capacity").value+" GB":"ukendt";
-   selected.push({
-    name:"Systemdisk: "+type,
-    summary:"Systemdisken opbevarer Windows, programmer, spil og filer. SSD'er giver typisk hurtigere adgangstider end mekaniske harddiske.",
-    specs:[["Lagertype",type],["Angivet kapacitet",size],["Præcis model / interface / ledig plads","Ikke oplyst"]],
-    use:"NVMe kræver en kompatibel tilslutning. Et generisk lagervalg dokumenterer ikke diskens faktiske hastighed eller sundhed.",
-    evidenceLabel:"Brugeroplyst diskklasse – ingen producentmodel"
-   });
+  if(selected("storage")||selected("capacity")){
+   selectedParts.push({name:"Systemdisk: "+({hdd:"HDD",sata:"SATA SSD",nvme:"NVMe SSD"}[selected("storage")]||"ukendt"),
+     summary:"Lageret bruges til operativsystemet, programmer og filer.",
+     specs:[["Type",selected("storage")||"ukendt"],["Kapacitet",selected("capacity")||"ukendt"]],evidenceLabel:"Generisk lagertype – ikke en produktmodel"});
   }
-  if(!selected.length){const p=document.createElement("p");p.textContent="Vælg en komponent ovenfor for at se dens specifikationer.";specs.append(p);}
-  else selected.forEach(x=>specs.append(card(x)));
+  if(!selectedParts.length){const p=document.createElement("p");p.textContent="Vælg en komponent ovenfor for at se dens specifikationer.";specs.append(p);}
+  else selectedParts.forEach(item=>specs.append(card(item)));
  }
+
  for(const id of ids)$(id).addEventListener("change",refresh);
  $("pc-checker-form").addEventListener("reset",()=>queueMicrotask(refresh));
  refresh();
