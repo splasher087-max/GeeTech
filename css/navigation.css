@@ -1,16 +1,16 @@
 /* GeeTech shared navigation: same geometry across landing, service, shop and account.
-   On wide screens the menu is centered in the viewport, regardless of the right action. */
+   On wide screens the menu is right-aligned on every page, as on Min konto. */
 .site-header.site-header{
- display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
- align-items:center;column-gap:20px;
+ display:grid;grid-template-columns:minmax(0,1fr) max-content max-content;
+ align-items:center;column-gap:clamp(12px,2vw,30px);
  min-height:76px;height:auto;
  padding:12px clamp(18px,4vw,72px);
 }
 .site-header .site-brand{grid-column:1;justify-self:start;min-width:0}
 .site-header .site-main-nav{
  grid-column:2;display:flex;flex-direction:row;
- align-items:center;justify-content:center;gap:clamp(12px,1.5vw,25px);
- width:max-content;min-width:0;margin:0;padding:0;
+ align-items:center;justify-content:flex-end;gap:clamp(12px,1.5vw,25px);
+ width:max-content;min-width:0;margin:0 0 0 auto;padding:0;justify-self:end;
  position:static;order:initial;
 }
 .site-header .site-main-nav a{
@@ -19,6 +19,7 @@
  line-height:1.4;min-height:36px;
 }
 .site-header .site-action{grid-column:3;justify-self:end;white-space:nowrap}
+.site-header .site-action:empty{display:none}
 .site-header .site-main-nav a[href="account.html"]{
  border-radius:9px;border:1px solid rgba(181,145,230,.43);
  background:rgba(144,96,210,.14);color:#dfc7ff;
@@ -40,9 +41,9 @@
  .site-header .site-action{grid-column:2;grid-row:1}
  .site-header .site-main-nav{
   grid-column:1/-1;grid-row:2;order:initial;
-  width:100%;max-width:100%;min-width:0;justify-content:center;
+  width:100%;max-width:100%;min-width:0;justify-content:flex-end;
   flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;
-  scrollbar-width:thin;padding:4px 2px 7px;
+  scrollbar-width:thin;padding:4px 2px 7px;margin:0;
  }
 }
 @media(max-width:600px){
