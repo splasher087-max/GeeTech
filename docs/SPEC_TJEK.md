@@ -42,7 +42,7 @@ Krav opdateres af udgiverne og skal efterkontrolleres løbende. Kataloget anvend
 
 
 ## Detaljer og guidede valg (29.10.2026)
-- `js/spec-enrichment.js` udstyrer samtlige **151 valgbare katalogindgange** med et teknisk specifikationsskema, en forståelig forklaring og en tydelig kildestatus. Heraf er **135 CPU-/GPU-/bundkortmodeller**; resten er generiske PSU-/kabinetklasser, **ikke** konkrete produktmodeller.
+- `js/spec-enrichment.js` udstyrer samtlige **151 basisindgange** med et teknisk specifikationsskema, en forståelig forklaring og en tydelig kildestatus. Heraf er **135 CPU-/GPU-/bundkortmodeller**; resten er generiske PSU-/kabinetklasser, **ikke** konkrete produktmodeller.
 - En CPU har felter for kerner, tråde, generation/arkitektur, sokkel, RAM-type, lanceringsår og oplyst TDP eller processor base power. GPU'er viser arkitektur, VRAM, typisk effekt og lanceringsår. Bundkort viser chipset, CPU-sokkel, RAM-type og formfaktor.
 - RAM og lagring, som endnu ikke har valgbare mærke-/SKU-kataloger, beskrives på kategori- og brugeroplyst niveau, uden opdigtede modulspecifikationer.
 - Komponentkort vises **med det samme**, når en del vælges, og igen i samlet rapport. Producentlinks skal undersøges på præcis SKU, når de er angivet som serie- eller katalogkilder.
@@ -50,7 +50,18 @@ Krav opdateres af udgiverne og skal efterkontrolleres løbende. Kataloget anvend
 - Udover sokkel kontrolleres dokumenterede chipset-undtagelser: Intel 7. generations Core med Z390 er blokeret ([Intel](https://www.intel.com/content/www/us/en/support/articles/000025694.html)), og Ryzen 1000/2000 på B550 samt Ryzen 1000 på X570 er blokeret ([AMD](https://www.amd.com/en/products/processors/chipsets/am4.html)).
 - Automatiske tests i `tests/spec-metadata.test.cjs` og `tests/spec-interactive.test.cjs` køres via GitHub Actions for at kontrollere datadækning, disse blokeringer og automatiske valg.
 
-**Datakvalitet:** Alle 151 indgange har informationsfelter, men det er **ikke det samme som 151 individuelt verificerede SKU'er**. Lanceringsdatoer, GPU-referenceeffekt, chipsetvarianter og CPU-TDP skal stadig kvalitetssikres per præcis variant. Et generelt producentkatalog er ikke en modelcertificering. Der gives ikke garanti for komplet kompatibilitet, fps eller et bestemt opgraderingsresultat.
+**Datakvalitet:** Alle katalogindgange har informationsfelter, men det er **ikke det samme som 151 individuelt verificerede SKU'er**. Lanceringsdatoer, GPU-referenceeffekt, chipsetvarianter og CPU-TDP skal stadig kvalitetssikres per præcis variant. Et generelt producentkatalog er ikke en modelcertificering. Der gives ikke garanti for komplet kompatibilitet, fps eller et bestemt opgraderingsresultat.
+
+### Yderligere dokumenterede modelvalg
+`js/spec-extras.js` tilføjer **10 konkrete produktmodeller/varianter** med individuelle specifikationer og producenthenvisninger:
+- 4 Kingston FURY DDR4-/DDR5-RAM-kit med nøjagtigt SKU, kapacitet, profiler, hastighed og timing ([Kingston DDR5](https://www.kingston.com/datasheets/KF560C36BBE2K2-32.pdf), [Kingston DDR4](https://www.kingston.com/en/memory/search?partid=KF432C16BBK2%2F32)).
+- 3 NVMe-SSD'er: Samsung 990 PRO 2TB og Crucial P3 Plus 1TB/2TB (producentens oplyste, *maksimale* sekventielle hastigheder – ikke målt kundeydelse).
+- 1 Corsair RM750e PSU-variant med præcist EU-SKU, 750 W, ATX 3.1 og kabeltype.
+- 2 kabinetmodeller (Corsair 4000D AIRFLOW og original Fractal North) med dokumenterede formater og maksimal GPU-længde.
+
+Det giver nu **161 valg**: 145 navngivne CPU-/GPU-/bundkort- og andre produktmodeller plus 16 generiske PSU-/kabinetklasser. Brugeren kan stadig angive RAM/disk/PSU/kabinet efter kategori, når den præcise model ikke er i databasen. Når en præcis RAM-model vælges, sættes kapacitet, DDR-type og inkompatible valgmuligheder automatisk; konkrete SSD-/PSU-/kabinetvalg udfylder de tilhørende generiske felter.
+
+Der er kun dokumenterede konkrete modeloplysninger på de nye 10 poster; den oprindelige 135-modeldatabase er stadig delvist katalogverificeret frem for fuldt efterkontrolleret per SKU. Der er **ingen garanti for komplet kompatibilitet**, og fabrikantens produktside skal efterkontrolleres før køb.
 
 ## Persondata og udvikling
 Formularen kører lokalt i browseren uden at sende PC-oplysninger til en server. Rapport kan kopieres/printes. Ingen betalt service eller automatisk produktkøb aktiveres. Databasen skal revideres før en egentlig kommerciel lancering.
