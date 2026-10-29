@@ -36,6 +36,7 @@ window.GEETECH_DB = (() => {
    "Intel Core i5-11400F|2021|LGA1200|DDR4|6/12|3|65","Intel Core i7-11700K|2021|LGA1200|DDR4|8/16|4|125",
    "Intel Core i3-12100F|2022|LGA1700|DDR4/DDR5|4/8|3|58",
    "Intel Core i5-12400|2022|LGA1700|DDR4/DDR5|6/12|4|65",
+   "Intel Core i5-12500|2022|LGA1700|DDR4/DDR5|6/12|4|65",
    "Intel Core i5-12600K|2021|LGA1700|DDR4/DDR5|10/16|5|125",
    "Intel Core i7-12700K|2021|LGA1700|DDR4/DDR5|12/20|5|125",
    "Intel Core i9-12900K|2021|LGA1700|DDR4/DDR5|16/24|5|125",
@@ -117,6 +118,7 @@ window.GEETECH_DB = (() => {
  const exact={
   "AMD Ryzen 5 5600X":"https://www.amd.com/en/products/processors/desktops/ryzen/5000-series/amd-ryzen-5-5600x.html",
   "Intel Core i5-12400":"https://www.intel.com/content/www/us/en/products/sku/134586/intel-core-i512400-processor-18m-cache-up-to-4-40-ghz/specifications.html",
+  "Intel Core i5-12500":"https://www.intel.com/content/www/us/en/products/sku/96144/intel-core-i512500-processor-18m-cache-up-to-4-60-ghz/specifications.html",
   "NVIDIA GeForce RTX 3070":"https://www.nvidia.com/da-dk/geforce/graphics-cards/30-series/rtx-3070-3070ti/",
   "AMD Radeon RX 6700 XT":"https://www.amd.com/en/products/graphics/desktops/radeon/6000-series/amd-radeon-rx-6700-xt.html"
  };
