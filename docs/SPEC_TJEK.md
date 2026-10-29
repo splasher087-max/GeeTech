@@ -70,3 +70,12 @@ Formularen kører lokalt i browseren uden at sende PC-oplysninger til en server.
 - GitHub Actions: kontrol af lokale filreferencer, navigationsrækkefølge, JS-syntaks og tilstedeværelse af producentkilder.
 - Manuelle kodebaserede gennemløb: Ryzen 5600X + MSI B550 + DDR4 + RTX 3070 (ingen sikker konflikt) og Ryzen 7600 + B550 (sokkelkonflikt).
 - Browserbaseret end-to-end-test, tilgængelighed, responsivitet og faktatjek af **alle** enkelte SKU'er er endnu ikke gennemført.
+
+## Valgfri automatisk Windows-scanning (privat)
+`tools/GeeTech-SPEC-TJEK.ps1` er et gennemskueligt, skrivebeskyttet PowerShell-script. Det bruger Windows CIM og Get-PhysicalDisk til at **læse** CPU, GPU, bundkortmodel, RAM-kapacitet og diskmodel/type, hvor systemet giver adgang. Ingen administratorrettigheder er nødvendige i almindelige konfigurationer, men PowerShell-politikker kan forhindre kørsel.
+
+Scriptet gemmer en JSON-rapport på skrivebordet (eller i Dokumenter som fallback). Den indeholder ikke brugernavn, serienumre, MAC/IP, personlige filer eller adgangskoder; den gemmer kun de nævnte hardwarefelter. Den kontakter ikke GeeTech eller andre servere.
+
+På `upgrade-checker.html` kan kunden **selv vælge filen**. `js/spec-import.js` læser den lokalt i browseren med browserens fil-API; ingen automatisk upload eller serverlagring finder sted. Ukendte modeller overføres som fri tekst og får ikke opdigtede specifikationer. CPU/GPU/bundkort vælges fra kataloget, kun når modellen er entydigt genkendt.
+
+**Begrænsning:** GPU-listen kan indeholde flere grafikenheder. Windows kan normalt ikke identificere PSU eller kabinet sikkert, og disklister afslører ikke altid hvilken disk operativsystemet ligger på. Scannerens data er derfor et udgangspunkt, ikke certificeret kompatibilitet eller præcise FPS-målinger. Mac og Linux kræver andre løsninger. Kunder kan altid bruge manuel indtastning uden download.
