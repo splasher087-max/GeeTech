@@ -10,7 +10,16 @@
   if(key.length<5)return null;
   const exact=items.find(x=>norm(x.name)===key);
   if(exact)return exact;
-  const found=items.filter(x=>key.startsWith(norm(x.name))&&norm(x.name).length>=7);
+  let found=items.filter(x=>key.startsWith(norm(x.name))&&norm(x.name).length>=7);
+  if(found.length===1)return found[0];
+  // Win32_BaseBoard often reports only the product name, e.g.
+  // "MAG B550 TOMAHAWK (MS-7C91)" without the MSI brand.
+  if(items===db.boards){
+   found=items.filter(x=>{
+    const short=norm(x.name).replace(/^(msi|asus|gigabyte|asrock)/,"");
+    return short.length>=9&&(key===short||key.startsWith(short));
+   });
+  }
   return found.length===1?found[0]:null;
  };
  const choose=(id,value)=>{
