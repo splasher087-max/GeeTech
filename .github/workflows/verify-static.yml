@@ -62,7 +62,7 @@ jobs:
           sys.exit(bool(errors))
           PY
 
-      - name: Check JavaScript syntax
+      - name: Verify SPEC TJEK catalogue metadata and compatibility\n        run: node tests/spec-metadata.test.cjs\n      - name: Check JavaScript syntax
         run: |
           for file in js/*.js; do node --check "$file"; done
       - name: Check SPEC TJEK source links
