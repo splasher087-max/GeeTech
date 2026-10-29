@@ -114,5 +114,15 @@
   c.use="Kabinetter har forskellige pladsforhold, luftgennemstrømning og kølingsmuligheder. Kabinetklassen garanterer ikke fysisk plads til dele.";
   c.evidenceLabel="Generisk formfaktor – ikke en producentmodel";
  }
- window.GEETECH_SPEC_META={sourcePages};
+ // Intel explicitly documents that LGA1151 6th/7th generation CPUs cannot
+ // run on 300-series chipsets (8th/9th generation), despite the same socket.
+ const exactCompatibility=(cpu,board)=>{
+  if(!cpu||!board)return {kind:"unknown"};
+  if(cpu.socket!==board.socket)return {kind:"blocked",reason:"CPU og bundkort har forskellige sokler."};
+  if(cpu.socket==="LGA1151"&&board.chipset==="Z390"&&/Intel Core i[3579]-7\\d{3}/.test(cpu.name))
+   return {kind:"blocked",reason:"Intel 7. generation fungerer ikke med Intel 300-serie chipset, selvom soklen hedder LGA1151.",
+     source:"https://www.intel.com/content/www/us/en/support/articles/000025694.html"};
+  return {kind:"socket",reason:"Soklen matcher, men BIOS-version og præcis CPU-support er ikke verificeret."};
+ };
+ window.GEETECH_SPEC_META={sourcePages,exactCompatibility};
 })();
