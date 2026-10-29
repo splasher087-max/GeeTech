@@ -135,3 +135,21 @@ body:not([data-page="account"]) a:focus-visible,
 body:not([data-page="account"]) button:focus-visible,
 body:not([data-page="account"]) input:focus-visible,
 body:not([data-page="account"]) select:focus-visible{outline:3px solid #a4d4a0!important;outline-offset:3px}
+
+/* Customer account is a separate purple destination even when linked from the shop. */
+.navbar .nav-links a[href="account.html"]{
+ display:inline-flex;align-items:center;justify-content:center;
+ padding:8px 13px;border:1px solid rgba(187,151,238,.42);border-radius:10px;
+ background:rgba(143,101,205,.13);color:#d6bdff;
+ font-weight:800;white-space:nowrap;
+ transition:background .2s,border-color .2s,color .2s;
+}
+.navbar .nav-links a[href="account.html"]:hover,
+.navbar .nav-links a[href="account.html"]:focus-visible{
+ color:#f7edff;background:rgba(156,111,220,.28);border-color:#b992ea;
+}
+.navbar .nav-links a[href="account.html"].active{
+ background:rgba(156,111,220,.24);border-color:#b992ea;color:#f7edff;
+}
+.navbar .nav-links a[href="account.html"].active::after{background:#bb98ed}
+@media(prefers-reduced-motion:reduce){.navbar .nav-links a[href="account.html"]{transition:none}}
