@@ -17,9 +17,25 @@
   if(source){const sources=document.createElement("div");sources.className="checker-sources";link(sources,sourceLabel,source);box.append(sources);}
   parent.append(box);lines.push(label+" | "+title+": "+description+(source?" | Kilde: "+source:""));return box;
  }
+
+ function renderSpecs(parent,item){
+  if(!item)return;
+  if(item.specs?.length){
+   const dl=document.createElement("dl");dl.className="checker-spec-dl";
+   for(const [label,value] of item.specs){
+    const row=document.createElement("div");row.className="checker-spec-row";
+    text(row,"dt",label);text(row,"dd",value);dl.append(row);
+   }
+   parent.append(dl);
+  }
+  if(item.use)text(parent,"p",item.use,"checker-component-use");
+  if(item.evidenceLabel)text(parent,"small","Kildestatus: "+item.evidenceLabel,"checker-evidence");
+ }
  function component(parent,kind,name,info,source,sourceLabel){
   const box=document.createElement("article");box.className="checker-part";
   text(box,"span",kind,"checker-part-label");text(box,"h4",name);text(box,"p",info);
+  const entry=[...db.cpus,...db.gpus,...db.boards,...db.psus,...db.cases].find(x=>x.name===name);
+  renderSpecs(box,entry);
   if(source){const wrap=document.createElement("div");wrap.className="checker-sources";text(wrap,"small","Katalogreference (tjek den præcise model):");link(wrap,sourceLabel||"Producentens katalog",source);box.append(wrap);}
   parent.append(box);lines.push(kind+": "+name+" — "+info+(source?" | Katalog: "+source:""));
  }
