@@ -40,6 +40,18 @@ Kilder til spilkrav:
 
 Krav opdateres af udgiverne og skal efterkontrolleres løbende. Kataloget anvender konservative tiers og RAM/VRAM/SSD-krav; disse er **ikke** målte benchmarks. Mangler der CPU/GPU/RAM, må spilvurderingen ikke kaldes sikker. Kun systemkrav kan sammenholdes; præcise 1% lows, FPS og grafikindstillinger kræver **reelle tests af samme hardware**, med kilde, spilversion, opløsning, indstillinger, driver og målemetode.
 
+
+## Detaljer og guidede valg (29.10.2026)
+- `js/spec-enrichment.js` udstyrer samtlige **151 valgbare katalogindgange** med et teknisk specifikationsskema, en forståelig forklaring og en tydelig kildestatus. Heraf er **135 CPU-/GPU-/bundkortmodeller**; resten er generiske PSU-/kabinetklasser, **ikke** konkrete produktmodeller.
+- En CPU har felter for kerner, tråde, generation/arkitektur, sokkel, RAM-type, lanceringsår og oplyst TDP eller processor base power. GPU'er viser arkitektur, VRAM, typisk effekt og lanceringsår. Bundkort viser chipset, CPU-sokkel, RAM-type og formfaktor.
+- RAM og lagring, som endnu ikke har valgbare mærke-/SKU-kataloger, beskrives på kategori- og brugeroplyst niveau, uden opdigtede modulspecifikationer.
+- Komponentkort vises **med det samme**, når en del vælges, og igen i samlet rapport. Producentlinks skal undersøges på præcis SKU, når de er angivet som serie- eller katalogkilder.
+- `js/spec-interactive.js` deaktiverer kendt inkompatible CPU-/bundkortkombinationer, DDR-generationer og kabinetformater. CPU/bundkort vælger automatisk sokkel; entydig RAM-generation bliver automatisk valgt. Ved fravalg slettes de auto-afledte værdier.
+- Udover sokkel kontrolleres dokumenterede chipset-undtagelser: Intel 7. generations Core med Z390 er blokeret ([Intel](https://www.intel.com/content/www/us/en/support/articles/000025694.html)), og Ryzen 1000/2000 på B550 samt Ryzen 1000 på X570 er blokeret ([AMD](https://www.amd.com/en/products/processors/chipsets/am4.html)).
+- Automatiske tests i `tests/spec-metadata.test.cjs` og `tests/spec-interactive.test.cjs` køres via GitHub Actions for at kontrollere datadækning, disse blokeringer og automatiske valg.
+
+**Datakvalitet:** Alle 151 indgange har informationsfelter, men det er **ikke det samme som 151 individuelt verificerede SKU'er**. Lanceringsdatoer, GPU-referenceeffekt, chipsetvarianter og CPU-TDP skal stadig kvalitetssikres per præcis variant. Et generelt producentkatalog er ikke en modelcertificering. Der gives ikke garanti for komplet kompatibilitet, fps eller et bestemt opgraderingsresultat.
+
 ## Persondata og udvikling
 Formularen kører lokalt i browseren uden at sende PC-oplysninger til en server. Rapport kan kopieres/printes. Ingen betalt service eller automatisk produktkøb aktiveres. Databasen skal revideres før en egentlig kommerciel lancering.
 
