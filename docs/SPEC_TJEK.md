@@ -3,7 +3,7 @@
 Status: vejledende frontend-demo, 29. oktober 2026.
 
 ## Databasen
-- `js/spec-database.js` rummer **52 desktop-CPU'er, 59 desktop-GPU'er, 24 bundkortmodeller, 12 PSU-effektklasser og 4 kabinetklasser**.
+- `js/spec-database.js` rummer **130 desktop-CPU'er, 86 desktop-GPU'er, 58 bundkortmodeller, 12 PSU-effektklasser og 4 kabinetklasser**.
 - Katalogets årstal er modellerne/generationernes omtrentlige lanceringstidspunkter, **ikke** det konkrete brugte eksemplars alder.
 - Komponenternes interne `tier` er en heuristik til grove vurderinger, **ikke** en benchmark eller et dokumenteret FPS-tal.
 - Producenternes katalog-/familielinks er alene en vej til kontrol; de dokumenterer ikke automatisk hver SKU's specifikationer.
@@ -79,3 +79,12 @@ Scriptet gemmer en JSON-rapport på skrivebordet (eller i Dokumenter som fallbac
 På `upgrade-checker.html` kan kunden **selv vælge filen**. `js/spec-import.js` læser den lokalt i browseren med browserens fil-API; ingen automatisk upload eller serverlagring finder sted. Ukendte modeller overføres som fri tekst og får ikke opdigtede specifikationer. CPU/GPU/bundkort vælges fra kataloget, kun når modellen er entydigt genkendt.
 
 **Begrænsning:** GPU-listen kan indeholde flere grafikenheder. Windows kan normalt ikke identificere PSU eller kabinet sikkert, og disklister afslører ikke altid hvilken disk operativsystemet ligger på. Scannerens data er derfor et udgangspunkt, ikke certificeret kompatibilitet eller præcise FPS-målinger. Mac og Linux kræver andre løsninger. Kunder kan altid bruge manuel indtastning uden download.
+
+## Udvidet ældre PC-katalog (opdateret 29. oktober 2026)
+`js/spec-legacy-catalog.js` indlæses mellem `spec-database.js` og `spec-enrichment.js`. Kataloget rummer almindelige forbrugerkomponenter omtrent fra 2018 og frem, plus ældre modeller som fortsat kan findes i brugte PC'er.
+
+Alle modeller får beskrivende felter, udgivelsesår (omtrentlig), kerne-/trådtal eller VRAM samt fabrikantens kildeindgang. **Generelle producentkataloger verificerer ikke automatisk den præcise SKU**. Kildestatus vises derfor, og kompatibilitet mellem chipset, BIOS, RAM, fysisk størrelse og strømforsyning er fortsat en afgrænset analyse.
+
+Intel Core i5-12500 (2022) har specifik [Intel ARK-kilde](https://www.intel.com/content/www/us/en/products/sku/96144/intel-core-i512500-processor-18m-cache-up-to-4-60-ghz/specifications.html), og importen genkender nu Windows-navnet `12th Gen Intel(R) Core(TM) i5-12500`.
+
+**Ikke komplet:** Det globale hardwaremarked indeholder tusindvis af SKU'er, OEM-varianter, bærbare chips, særskilte RAM/SSD/PSU/kabinetmodeller og nyere udgivelser. Denne database er ikke en fuldstændig hardwareencyklopædi; ukendte dele vises uden opdigtede faktatal. Nye dele skal faktatjekkes individuelt.
