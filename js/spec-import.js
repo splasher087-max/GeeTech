@@ -11,7 +11,10 @@
   const exact=items.find(x=>norm(x.name)===key);
   if(exact)return exact;
   let found=items.filter(x=>key.startsWith(norm(x.name))&&norm(x.name).length>=7);
-  if(found.length===1)return found[0];
+  if(found.length){
+   found.sort((a,b)=>norm(b.name).length-norm(a.name).length);
+   if(found.length===1||norm(found[0].name).length>norm(found[1].name).length)return found[0];
+  }
   // Win32_BaseBoard often reports only the product name, e.g.
   // "MAG B550 TOMAHAWK (MS-7C91)" without the MSI brand.
   if(items===db.boards){
