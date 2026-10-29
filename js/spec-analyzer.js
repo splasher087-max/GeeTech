@@ -52,8 +52,10 @@
   const model=(known,custom)=>known?.name||((custom||"").trim()||"Ikke oplyst");
   const cpuName=model(cpu,el("cpu-custom").value),gpuName=model(gpu,el("gpu-custom").value),boardName=model(board,el("board-custom").value);
   // Definitive socket / memory conflicts only when both sides are known.
-  if(cpu&&board){if(cpu.socket!==board.socket)finding("fail","CPU-sokkel passer ikke",cpu.name+" bruger "+cpu.socket+", men "+board.name+" bruger "+board.socket+". Delene passer ikke fysisk sammen.");
-    else finding("ok","CPU og bundkort har samme sokkel",cpu.socket+" matcher. BIOS-version, chipset, køling og CPU-understøttelsesliste skal stadig kontrolleres.");}
+  if(cpu&&board){const cpuBoardCheck=window.GEETECH_SPEC_META?.exactCompatibility?.(cpu,board);
+    if(cpuBoardCheck?.kind==="blocked"&&cpu.socket===board.socket)finding("fail","Chipset understøtter ikke CPU-generationen",cpuBoardCheck.reason+" Kilde: "+(cpuBoardCheck.source||"producentens CPU-supportliste"));
+    if(cpu.socket!==board.socket)finding("fail","CPU-sokkel passer ikke",cpu.name+" bruger "+cpu.socket+", men "+board.name+" bruger "+board.socket+". Delene passer ikke fysisk sammen.");
+    else if(cpuBoardCheck?.kind!=="blocked")finding("ok","CPU og bundkort har samme sokkel",cpu.socket+" matcher. BIOS-version, chipset, køling og CPU-understøttelsesliste skal stadig kontrolleres.");}
   else if(cpu&&d.socket){if(cpu.socket!==d.socket)finding("fail","Den angivne sokkel matcher ikke CPU'en",cpu.name+" bruger "+cpu.socket+"; du har angivet "+d.socket+".");
     else finding("ok","CPU-sokkel matcher din oplysning",cpu.socket+" er samme sokkel. Uden model på bundkortet kan BIOS-understøttelsen ikke bekræftes.");}
   else finding("unknown","CPU/bundkort-kompatibilitet ukendt","Vælg både CPU og præcist bundkort for at kontrollere soklen.");
