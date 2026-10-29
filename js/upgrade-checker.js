@@ -64,7 +64,10 @@ function evaluate(event){
  part(cards,"PROCESSOR",cName,cpu?.[2]??null,cpu?.[5]||"Indtast CPU-modellen for at få mere konkret information.");
  part(cards,"GRAFIKKORT",gName,gpu?.[2]??null,gpu?.[4]||"Grafikkortets egenskaber kan ikke vurderes uden præcis model.");
  part(cards,"RAM",ram?ram+" GB":"Ukendt mængde",null,ram?"Oplyst type: "+(d.ramtype||"ukendt")+". Mængden alene siger ikke alt om hastighed eller kompatibilitet.":"Angiv gerne RAM-mængden for at få en vurdering.");
+ part(cards,"BUNDKORT",d.motherboard?.trim()||"Ukendt bundkortmodel",null,"Oplyst CPU-sokkel: "+(d.socket||"ukendt")+". For kompatibilitet skal bundkortmodel, chipset og BIOS-version kontrolleres.");
+ part(cards,"STRØMFORSYNING",d.psu?d.psu+" W (angivet)":"Ukendt effekt",null,"Watt alene er ikke nok: kvalitet, alder, stik og faktisk strømforbrug skal også kontrolleres.");
  part(cards,"SYSTEMDISK",d.storage==="hdd"?"Harddisk (HDD)":d.storage==="sata"?"SATA SSD":d.storage==="nvme"?"NVMe SSD":"Ukendt disk",null,d.storage==="hdd"?"En SSD kan ofte gøre opstart og indlæsning væsentligt hurtigere.":d.storage==="sata"?"En SATA SSD er stadig fin til daglig brug.":d.storage==="nvme"?"En NVMe SSD er en hurtig lagertype; mærkbar forskel afhænger af opgaven.":"Disktypen er ukendt.");
+ part(cards,"LAGERKAPACITET",d.capacity?d.capacity+" GB (angivet)":"Ukendt kapacitet",null,"Pladsbehov afhænger af programmer, spil og hvor meget ledig plads du har.");
  let important=0;
  const add=(level,title,desc)=>{if(level==="important")important++;recommendation(advice,level,title,desc)};
  if(cpu?.[3]&&d.socket&&d.socket!=="other"&&cpu[3]!==d.socket)
@@ -75,6 +78,13 @@ function evaluate(event){
  else if(ram===8)add("note","16 GB RAM kan være værd at overveje","8 GB kan fungere til let brug, men 16 GB giver ofte bedre plads til spil og multitasking.");
  else if(ram===16&&(use==="creative"||use==="stream"))add("note","32 GB kan give mere arbejdsrum","Ved videoredigering, mange programmer og streaming kan større RAM-mængde hjælpe.");
  else if(ram>=32)add("info","RAM-mængden ser fornuftig ud","Din oplyste mængde er god til mange almindelige og krævende opgaver. Hastighed og behov varierer.");
+ if(d.capacity&&Number(d.capacity)<=256)add("note","Overvej mere lagerplads","Hvis disken er næsten fuld, kan en større SSD give plads til system, spil og programmer. Kontroller tilslutning og dataflytning.");
+ if(d.psu&&Number(d.psu)<=450&&(use==="gaming"||use==="stream"))add("note","Undersøg strømforsyningen før en GPU-opgradering","En angivet strømforsyning på "+d.psu+" W kan sætte grænser for nogle nye grafikkort. Den konkrete model, alder og strømforbrug skal verificeres.");
+ if(d.issue==="slow")add("note","Langsom opstart og programmer","Kontrollér diskens type og sundhed, opstartsprogrammer, RAM-forbrug og systemtilstand, før du vælger en opgradering.");
+ if(d.issue==="fps")add("note","Lav FPS eller hakkende spil","Mål CPU- og GPU-belastning, temperaturer og RAM-forbrug i dine faktiske spil. Det viser bedre, hvad der begrænser din PC.");
+ if(d.issue==="hot")add("note","Høj varme eller støj","Undersøg støv, køler, luftgennemstrømning, blæserkurver og temperaturer. Flere eller dyrere dele løser ikke nødvendigvis problemet.");
+ if(d.issue==="space")add("note","Mangler lagerplads","Se efter plads til en ekstra SSD eller udskiftning. Tag backup før flytning af system eller filer.");
+ if(d.issue==="crash")add("important","Ustabil PC skal fejlsøges først","Nedbrud kan have mange årsager: RAM, drivere, temperaturer, lager, strømforsyning eller software. Køb ikke dele ud fra gæt.");
  if(d.storage==="hdd")add("important","SSD er oplagt at undersøge","Hvis Windows ligger på en HDD, er flytning til en kompatibel SSD ofte en af de mest mærkbare forbedringer.");
  if(cpu&&cpu[6]!==null&&cpu[6]<=2&&(use==="gaming"||use==="stream"||use==="creative"))
   add("note","Tjek CPU-ydelsen til dine programmer","Din CPU er fra en ældre generation. Undersøg CPU-belastning og faktiske problemer før et køb.");
@@ -90,7 +100,8 @@ function evaluate(event){
  addText(status,"strong",important?"Der er "+important+" ting, som bør undersøges":"Første vurdering er klar");
  addText(status,"span",important?"Se markeringerne nedenfor. Det er ikke en fejl-diagnose.":"Gennemgå forslagene nedenfor – de er vejledende.");
  placeholder.hidden=true;output.hidden=false;
- reportLines.unshift("GeeTech PC Upgrade Checker – vejledende rapport", "Brug: "+({general:"Hverdag",gaming:"Gaming",creative:"Kreativt arbejde",stream:"Gaming/streaming"}[use]||use), "Opløsning: "+(res?res==="2160"?"4K":res+"p":"Ikke angivet"));
+ reportLines.unshift("GeeTech SPEC TJEK – vejledende rapport", "Brug: "+({general:"Hverdag",gaming:"Gaming",creative:"Kreativt arbejde",stream:"Gaming/streaming"}[use]||use), "Opløsning: "+(res?res==="2160"?"4K":res+"p":"Ikke angivet"));
+ reportLines.push("Oplyst symptom: "+({none:"Ingen konkret fejl",slow:"Langsom opstart",fps:"Lav FPS",hot:"Høj varme/støj",space:"Mangler plads",crash:"Nedbrud"}[d.issue]||"Ikke angivet"));
  reportLines.push("Dette er ikke en komplet kompatibilitetskontrol, FPS-måling eller købsanbefaling.");
  output.scrollIntoView({behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth",block:"start"});
 }
