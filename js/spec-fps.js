@@ -1,13 +1,29 @@
 "use strict";
 /* Source: Tom's Hardware GPU Benchmarks Hierarchy (updated 24 June 2026).
- * Rasterization, native resolution, Ultra preset, average across THEIR tested game suite.
+ * Rasterization, native resolution, mixed high/ultra game presets, 11-game geometric mean from their June 2026 suite.
  * This is a measured test-suite aggregate for the GPU, NOT performance in any specific game.
  * Do not extrapolate to untested GPUs, other quality presets, CPUs or individual titles. */
 window.GEETECH_FPS = Object.freeze({
  source:"https://www.tomshardware.com/reviews/gpu-hierarchy,4388.html",
  sourceLabel:"Tom's Hardware GPU Benchmarks Hierarchy, 24. juni 2026",
- methodology:"Spilgennemsnit fra testsuite – rasterisering, Ultra-indstillinger, uden at love FPS for et bestemt spil",
+ methodology:"11-spils geometriske gennemsnit, native opløsning, mix af High og Ultra, uden opskalering eller frame generation. Testspecificeret CPU: Ryzen 7 9800X3D.",
  entries:{
+ "NVIDIA GeForce RTX 5070 Ti":{1080:155.4,1440:116.8,2160:68.6},
+ "AMD Radeon RX 9070 XT":{1080:156.6,1440:116.5,2160:65.8},
+ "AMD Radeon RX 7900 XT":{1080:145.4,1440:108.0,2160:59.8},
+ "NVIDIA GeForce RTX 4070 Ti SUPER":{1080:141.2,1440:104.0,2160:58.5},
+ "AMD Radeon RX 9070":{1080:140.9,1440:104.0,2160:57.7},
+ "NVIDIA GeForce RTX 3090 Ti":{1080:131.7,1440:99.9,2160:59.3},
+ "NVIDIA GeForce RTX 4070 Ti":{1080:135.1,1440:97.9,2160:53.9},
+ "NVIDIA GeForce RTX 5070":{1080:132.6,1440:96.4,2160:54.3},
+ "NVIDIA GeForce RTX 3090":{1080:122.9,1440:91.5,2160:53.1},
+ "NVIDIA GeForce RTX 4070 SUPER":{1080:126.7,1440:91.2,2160:49.2},
+ "NVIDIA GeForce RTX 3080 Ti":{1080:119.6,1440:89.1,2160:51.0},
+ "NVIDIA GeForce RTX 5060 Ti 16GB":{1080:105.2,1440:73.4,2160:40.2},
+ "NVIDIA GeForce RTX 5060 Ti 8GB":{1080:100.4,1440:68.6,2160:28.1},
+ "NVIDIA GeForce RTX 4060 Ti 16GB":{1080:89.3,1440:60.5,2160:31.3},
+ "AMD Radeon RX 9060 XT 8GB":{1080:93.2,1440:62.5,2160:29.7},
+ "AMD Radeon RX 7600 XT":{1080:102.1,1440:50.2,2160:25.5},
  "NVIDIA GeForce RTX 5090":{1080:203.8,1440:167.3,2160:110.8},
  "NVIDIA GeForce RTX 4090":{1080:183.6,1440:143.4,2160:89.1},
  "NVIDIA GeForce RTX 5080":{1080:166.9,1440:128.3,2160:77.4},
