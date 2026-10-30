@@ -110,6 +110,37 @@
   else if(ram===16&&(d.use==="creative"||d.use==="stream"))tip("RAM til krævende arbejde","32 GB kan være nyttigt i større projekter eller ved samtidig streaming.");
   if(gpu?.vram<=6&&(d.use==="gaming"||d.use==="stream"))tip("VRAM ved nyere spil","Den angivne videohukommelse kan være en begrænsning i nyere spil eller med høje teksturer.");
   if(d.resolution==="2160"&&gpu&&gpu.tier<6)tip("4K kræver ekstra omtanke","Ved 4K kan lavere grafikindstillinger eller opskalering være nødvendig. Ingen præcis FPS kan beregnes uden benchmarks.");
+  // Only show independently measured averages from the source test suite.
+  // Never present an aggregate as game-specific FPS or convert its result to
+  // a fake prediction using arbitrary 90/10 CPU/GPU weighting.
+  const fpsHost=el("checker-fps");
+  if(fpsHost){
+   fpsHost.replaceChildren();
+   const benchmarks=window.GEETECH_FPS;
+   const norm=x=>String(x||"").toLowerCase().replace(/[^a-z0-9]/g,"");
+   const record=gpu?Object.entries(benchmarks?.entries||{}).find(([name])=>norm(name)===norm(gpu.name)):null;
+   if(record){
+    const resolution=d.resolution||"1080";
+    const fps=record[1][resolution];
+    const section=document.createElement("section");
+    section.className="checker-fps-result";
+    text(section,"span","MÅLT GPU-BENCHMARK · IKKE SPILSPECIFIKT","checker-tip-label");
+    text(section,"h4",gpu.name);
+    if(Number.isFinite(fps)){
+     text(section,"strong",Math.round(fps)+" FPS","checker-fps-number");
+     text(section,"p","Gennemsnit på tværs af flere testede spil ved "+(resolution==="2160"?"4K":resolution+"p")+
+      " Ultra (rasterisering). Testen bruger et andet system end dit; enkelte spil og en CPU-flaskehals kan ændre resultatet betydeligt.");
+     lines.push("Målt GPU-testsuite: "+gpu.name+", "+resolution+"p Ultra: "+fps+" FPS, ikke et FPS-resultat for individuelle spil. Kilde: "+benchmarks.source);
+    }else text(section,"p","Der er ikke et publiceret tal for den valgte opløsning i denne tabel.");
+    const refs=document.createElement("div");refs.className="checker-sources";
+    link(refs,benchmarks.sourceLabel,benchmarks.source);section.append(refs);fpsHost.append(section);
+   }else{
+    const section=document.createElement("div");section.className="checker-fps-result";
+    text(section,"h4","FPS-benchmark ikke tilgængeligt");
+    text(section,"p",gpu?"Vi har endnu ikke et verificeret målt FPS-tal for netop dette grafikkort i den anvendte testsuite. Vi viser ikke et gæt som et resultat.":"Vælg et grafikkort for at se, om der findes målte benchmarktal.");
+    fpsHost.append(section);
+   }
+  }
   const chosen=d.game==="all"?games:[games[Number(d.game)]].filter(Boolean);
   el("checker-games-section").hidden=!(d.use==="gaming"||d.use==="stream");
   if(!el("checker-games-section").hidden)for(const game of chosen){
@@ -119,7 +150,7 @@
     const insufficient=valid&&(ram<min.ram||gpu.vram<min.vram||cpu.tier<min.cpu||gpu.tier<min.gpu||(min.ssd&&d.storage==="hdd"));
     const meetsRec=valid&&rec&&ram>=rec.ram&&gpu.vram>=rec.vram&&cpu.tier>=rec.cpu&&gpu.tier>=rec.gpu&&(!rec.ssd||d.storage!=="hdd");
     const verdict=!valid?"Ufuldstændige data":insufficient?"Under et eller flere minimumskriterier":meetsRec?"Ser ud til at ligge omkring anbefalet klasse":"Nogle anbefalede kriterier er ikke opfyldt eller kan ikke kontrolleres";
-    text(box,"span","SPILVURDERING · IKKE MÅLT FPS","checker-tip-label");text(box,"h4",game.name);text(box,"p",verdict+".");
+    text(box,"span","SPILKRAV · INGEN SPILSPECIFIK FPS-MÅLING","checker-tip-label");text(box,"h4",game.name);text(box,"p",verdict+".");
     text(box,"p","Officielle krav: minimum "+min.ram+" GB RAM"+(rec?" · anbefalet "+rec.ram+" GB RAM":" · ingen officiel anbefalet profil")+". "+game.notes);
     const w=document.createElement("div");w.className="checker-sources";link(w,game.label,game.source);box.append(w);gamePanel.append(box);
     lines.push(game.name+": "+verdict+" | Udgiverkrav: "+game.source);
