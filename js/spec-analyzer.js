@@ -145,15 +145,42 @@
   el("checker-games-section").hidden=!(d.use==="gaming"||d.use==="stream");
   if(!el("checker-games-section").hidden)for(const game of chosen){
     const box=document.createElement("article");box.className="checker-tip";
-    const valid=!!cpu&&!!gpu&&!!ram;
     const min=game.min,rec=game.rec;
-    const insufficient=valid&&(ram<min.ram||gpu.vram<min.vram||cpu.tier<min.cpu||gpu.tier<min.gpu||(min.ssd&&d.storage==="hdd"));
-    const meetsRec=valid&&rec&&ram>=rec.ram&&gpu.vram>=rec.vram&&cpu.tier>=rec.cpu&&gpu.tier>=rec.gpu&&(!rec.ssd||d.storage!=="hdd");
-    const verdict=!valid?"Ufuldstændige data":insufficient?"Under et eller flere minimumskriterier":meetsRec?"Ser ud til at ligge omkring anbefalet klasse":"Nogle anbefalede kriterier er ikke opfyldt eller kan ikke kontrolleres";
-    text(box,"span","SPILKRAV · INGEN SPILSPECIFIK FPS-MÅLING","checker-tip-label");text(box,"h4",game.name);text(box,"p",verdict+".");
-    text(box,"p","Officielle krav: minimum "+min.ram+" GB RAM"+(rec?" · anbefalet "+rec.ram+" GB RAM":" · ingen officiel anbefalet profil")+". "+game.notes);
+    // CPU+GPU are sufficient for a useful preliminary assessment. Missing RAM
+    // or storage must never be treated as zero, as adequate, or as verified.
+    const pairKnown=!!cpu&&!!gpu;
+    const cpuGpuBelowMin=pairKnown&&(cpu.tier<min.cpu||gpu.tier<min.gpu||gpu.vram<min.vram);
+    const ramBelowMin=ram!==null&&ram<min.ram;
+    const diskBelowMin=!!min.ssd&&d.storage==="hdd";
+    const belowMin=cpuGpuBelowMin||ramBelowMin||diskBelowMin;
+    const cpuGpuAtRec=pairKnown&&!!rec&&cpu.tier>=rec.cpu&&gpu.tier>=rec.gpu&&gpu.vram>=rec.vram;
+    const ramAtRec=ram!==null&&!!rec&&ram>=rec.ram;
+    const diskAtRec=!!rec&&(!rec.ssd||["sata","nvme"].includes(d.storage));
+    const missing=[];
+    if(!cpu)missing.push("CPU");if(!gpu)missing.push("grafikkort");
+    if(ram===null)missing.push("RAM-mængde");
+    if(min.ssd&&!d.storage)missing.push("disktype");
+    let verdict,detail;
+    if(belowMin){
+     verdict="Et eller flere kendte minimumskrav er sandsynligvis ikke opfyldt";
+     detail="Det betyder ikke nødvendigvis, at spillet aldrig kan starte, men ydelsen kan være utilstrækkelig.";
+    }else if(!pairKnown){
+     verdict="Vælg CPU og grafikkort for en foreløbig vurdering";
+     detail="De to komponenter er de vigtigste oplysninger til dette første tjek.";
+    }else if(cpuGpuAtRec){
+     verdict="CPU og grafikkort ligger omtrent på anbefalet niveau";
+     detail=ramAtRec&&diskAtRec?"De oplyste RAM- og diskkrav ser også fornuftige ud.":"Den samlede PC kan først vurderes mere sikkert, når RAM og relevante diskkrav er kendt.";
+    }else{
+     verdict="CPU og grafikkort ser ud til at opfylde de vejledende minimumsniveauer";
+     detail=rec?"Det anbefalede niveau er ikke bekræftet; lavere grafikindstillinger kan blive nødvendige.":"Spillet har ikke en offentlig anbefalet profil i dette datagrundlag.";
+    }
+    text(box,"span","FORELØBIG SPILVURDERING · CPU + GPU","checker-tip-label");
+    text(box,"h4",game.name);text(box,"p",verdict+".");
+    text(box,"p",detail);
+    if(missing.length)text(box,"p","Ikke kontrolleret: "+missing.join(", ")+". Vurderingen er derfor ikke en garanti for, at spillet kan køre.");
+    text(box,"p","Udgiverens systemkrav: minimum "+min.ram+" GB RAM"+(rec?" · anbefalet "+rec.ram+" GB RAM":" · ingen officiel anbefalet profil")+". "+game.notes);
     const w=document.createElement("div");w.className="checker-sources";link(w,game.label,game.source);box.append(w);gamePanel.append(box);
-    lines.push(game.name+": "+verdict+" | Udgiverkrav: "+game.source);
+    lines.push(game.name+": "+verdict+" | Mangler: "+(missing.join(", ")||"ingen oplyste nøglefelter")+" | Udgiverkrav: "+game.source);
   }
   if(d.use==="creative")tip("Kreativ ydelse","Det afhænger af din konkrete software, codecs, GPU-acceleration, RAM, lagring og projektstørrelse. En enkel hardwareliste giver ikke et pålideligt benchmark.");
   if(d.use==="general")tip("Kontor og skole","SSD og passende RAM vil ofte mærkes mere end et dyrt grafikkort. Se først på oplevede problemer.");
