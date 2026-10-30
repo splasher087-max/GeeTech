@@ -131,3 +131,11 @@ body{background:radial-gradient(ellipse at 85% 5%,rgba(84,77,173,.18),transparen
 .checker-detected-list dd{margin:0;font-size:13px;color:#fff;overflow-wrap:anywhere}
 .checker-detected>p{color:#afbddf;font-size:12px;margin:12px 0 0}
 @media(max-width:550px){.checker-detected-list>div{grid-template-columns:1fr;gap:2px}}
+
+/* Cited GPU FPS benchmarks: test-suite averages, never unsupported game predictions */
+.checker-fps{margin:14px 0 26px}
+.checker-fps-result{border:1px solid rgba(129,175,243,.48);background:linear-gradient(125deg,rgba(67,87,166,.25),rgba(41,51,92,.25));border-radius:16px;padding:22px}
+.checker-fps-result h4{font-size:19px;margin:8px 0 12px;line-height:1.25}
+.checker-fps-number{display:block;font-size:clamp(35px,5vw,53px);line-height:1.1;letter-spacing:-.055em;color:#a7f0ff;margin-bottom:12px}
+.checker-fps-result p{font-size:13px;color:#c7d1ec;margin:0 0 10px}
+.checker-fps-result .checker-sources{margin-top:12px}
