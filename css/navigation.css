@@ -60,3 +60,22 @@
  .site-header .site-brand small{display:none}
 }
 @media(prefers-reduced-motion:reduce){.site-header .site-main-nav a{transition:none}}
+
+/* Brand refresh: actual neon GeeTech G artwork on all pages.
+   Keep the pre-existing right-aligned navigation and the original wordmarks. */
+.site-header .site-brand{
+ display:inline-flex;align-items:center;gap:clamp(5px,.7vw,10px);
+ max-width:100%;text-decoration:none;
+}
+.site-header .site-brand .gt-header-icon{
+ display:block;flex:0 0 42px;width:42px;height:42px;
+ object-fit:contain;border-radius:9px;
+}
+.site-header .site-brand .mark{display:none}
+.site-header .site-brand small,
+.site-header .site-brand .account-brand-tag{flex-shrink:0}
+@media(max-width:600px){
+ .site-header .site-brand .gt-header-icon{width:34px;height:34px;flex-basis:34px}
+}
+.gt-landing-footer-logo{width:58px;height:58px;object-fit:contain;vertical-align:middle;flex:none}
+.device-center .device-icon img{width:100%;height:100%;max-width:95px;max-height:95px;object-fit:contain}
