@@ -128,8 +128,8 @@
     text(section,"h4",gpu.name);
     if(Number.isFinite(fps)){
      text(section,"strong",Math.round(fps)+" FPS","checker-fps-number");
-     text(section,"p","Gennemsnit på tværs af flere testede spil ved "+(resolution==="2160"?"4K":resolution+"p")+
-      " Ultra (rasterisering). Testen bruger et andet system end dit; enkelte spil og en CPU-flaskehals kan ændre resultatet betydeligt.");
+     text(section,"p","Målt geometrisk gennemsnit fra 11 spil ved "+(resolution==="2160"?"4K":resolution+"p")+
+      ", med både High- og Ultra-indstillinger afhængigt af spillet, native opløsning og uden opskalering (rasterisering). Test-PC: Ryzen 7 9800X3D. Din CPU og det enkelte spil kan ændre FPS betydeligt.");
      lines.push("Målt GPU-testsuite: "+gpu.name+", "+resolution+"p Ultra: "+fps+" FPS, ikke et FPS-resultat for individuelle spil. Kilde: "+benchmarks.source);
     }else text(section,"p","Der er ikke et publiceret tal for den valgte opløsning i denne tabel.");
     const refs=document.createElement("div");refs.className="checker-sources";
@@ -140,6 +140,26 @@
     text(section,"p",gpu?"Vi har endnu ikke et verificeret målt FPS-tal for netop dette grafikkort i den anvendte testsuite. Vi viser ikke et gæt som et resultat.":"Vælg et grafikkort for at se, om der findes målte benchmarktal.");
     fpsHost.append(section);
    }
+  }
+  // CPU gaming scores are independent tests with a different GPU and suite.
+  // Never multiply CPU index by GPU test averages to manufacture system FPS.
+  if(el("checker-fps")&&cpu){
+   const ranking=window.GEETECH_CPU_BENCHMARK;
+   const cpuScore=ranking?.scores?.[cpu.name];
+   const box=document.createElement("div");box.className="checker-fps-result checker-cpu-result";
+   if(Number.isFinite(cpuScore)){
+    text(box,"span","DOKUMENTERET CPU-GAMINGINDEKS · IKKE FPS","checker-tip-label");
+    text(box,"h4",cpu.name);
+    text(box,"strong",cpuScore.toLocaleString("da-DK")+" %","checker-fps-number");
+    text(box,"p","Relativt CPU-gamingindeks, hvor testens hurtigste CPU svarer til 100 %. "+ranking.testbed+". Testen er IKKE den samme som GPU-benchmarktesten og kan ikke kombineres direkte til FPS.");
+    const refs=document.createElement("div");refs.className="checker-sources";link(refs,ranking.sourceLabel,ranking.source);box.append(refs);
+    lines.push("Dokumenteret CPU-gamingindeks: "+cpu.name+" = "+cpuScore+" % | Kilde: "+ranking.source);
+   }else{
+    text(box,"span","INGEN VERIFICERET CPU-GAMINGMÅLING","checker-tip-label");
+    text(box,"h4",cpu.name);
+    text(box,"p","Denne CPU er endnu ikke dokumenteret i vores sammenlignelige CPU-gamingdatasæt. SPEC TJEK opfinder ikke et benchmarkresultat.");
+   }
+   el("checker-fps").append(box);
   }
   const chosen=d.game==="all"?games:[games[Number(d.game)]].filter(Boolean);
   el("checker-games-section").hidden=!(d.use==="gaming"||d.use==="stream");
