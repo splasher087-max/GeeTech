@@ -88,3 +88,12 @@ Alle modeller får beskrivende felter, udgivelsesår (omtrentlig), kerne-/trådt
 Intel Core i5-12500 (2022) har specifik [Intel ARK-kilde](https://www.intel.com/content/www/us/en/products/sku/96144/intel-core-i512500-processor-18m-cache-up-to-4-60-ghz/specifications.html), og importen genkender nu Windows-navnet `12th Gen Intel(R) Core(TM) i5-12500`.
 
 **Ikke komplet:** Det globale hardwaremarked indeholder tusindvis af SKU'er, OEM-varianter, bærbare chips, særskilte RAM/SSD/PSU/kabinetmodeller og nyere udgivelser. Denne database er ikke en fuldstændig hardwareencyklopædi; ukendte dele vises uden opdigtede faktatal. Nye dele skal faktatjekkes individuelt.
+
+## Benchmarkkvalitet – oktober 2026
+**Ingen opdigtede FPS:** `js/spec-fps.js` indeholder 40 GPU'er med 1080p/1440p/4K native rasteriserings-FPS fra [Tom's Hardware GPU Hierarchy, 24. juni 2026](https://www.tomshardware.com/reviews/gpu-hierarchy,4388.html). Det er et **11-spils geometrisk gennemsnit** på samme referenceplatform (Ryzen 7 9800X3D, 32 GB DDR5). Kildernes grafiske indstillinger varierer efter spil (High/Ultra), og der bruges ikke DLSS/FSR/opskalering eller frame generation. **Tallet er ikke en FPS-måling for et bestemt spil eller kundens egen PC.** Der findes særskilte legacy-testplatforme i kilden; resultater på tværs af generationer må ikke blandes uden at oplyse ændringen.
+
+`js/spec-cpu-benchmarks.js` indeholder 15 separat verificerede CPU-gamingindekser fra [Tom's Hardware CPU Hierarchy, 5. oktober 2026](https://www.tomshardware.com/reviews/cpu-hierarchy,4312.html). De er relative scores ved RTX 5090/1080p og **ikke FPS**. De kan ikke multipliceres med GPU-hierarkiets FPS.
+
+Udvid kun med nye modeller, når der findes sammenlignelig primær testinformation med konkret spil-/testsuite, opløsning, grafikindstillinger, testplatform, dato, kilde og målinger. Undlad modelaliaser uden eksakt identifikation og undlad at opfinde CPU-GPU-forholdsvægte. Ved manglende dokumentation skal skærmen sige »ikke dokumenteret« i stedet for at estimere en præcis FPS. Kundens aktuelle RAM, termik, drivere, software og CPU kan ændre resultatet.
+
+Dette er **ikke en komplet database over alle CPU'er og GPU'er**. Biblioteket af valgbare komponenter er bredere end antallet af uafhængige benchmarkmålinger.
